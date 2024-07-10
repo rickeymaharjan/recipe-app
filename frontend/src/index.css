@@ -104,7 +104,7 @@ p {
   }
 }
 
-@layer base {
+/* @layer base {
   * {
     @apply border-border;
     @apply bg-gray-50;
@@ -112,4 +112,4 @@ p {
   body {
     @apply bg-background text-foreground;
   }
-}
+} */

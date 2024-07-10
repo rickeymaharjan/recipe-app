@@ -33,10 +33,10 @@ function RecipeCard({ recipe }) {
               "linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0),rgba(0,0,0,0.7))",
           }}
         >
-          <div className="absolute bottom-0 left-0 right-0 bg-transparent font-avenir-medium">
+          <div className="absolute bottom-0 left-0 right-0 font-avenir-medium">
             <div className="flex items-center justify-between p-4 bg-transparent">
               <div className="bg-transparent">
-                <p className="text-base bg-transparent ">{recipe.title}</p>
+                <p className="text-base">{recipe.title}</p>
                 <div className="flex items-center gap-1 bg-transparent ">
                   <WiTime4 className="bg-transparent" size={20} />
                   <p className="text-sm bg-transparent ">{recipe.duration}</p>
@@ -44,7 +44,7 @@ function RecipeCard({ recipe }) {
               </div>
               <LuBookmark
                 onClick={handleBookmarkClick}
-                className="p-[10px] rounded-full"
+                className="p-[10px] rounded-full bg-white"
                 size={35}
                 color="black"
               />

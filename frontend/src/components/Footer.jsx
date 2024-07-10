@@ -3,8 +3,6 @@ import { PiTelegramLogo } from "react-icons/pi"
 import { SlSocialFacebook } from "react-icons/sl"
 import { FaInstagram } from "react-icons/fa"
 
-import { Separator } from "@radix-ui/react-separator"
-
 function Footer() {
   return (
     <div className="w-full h-[400px] bg-black flex flex-col justify-center items-center">
@@ -16,10 +14,10 @@ function Footer() {
       </Link>
 
       {/* Social links */}
-      <div className="flex gap-3 mb-14 bg-inherit">
-        <PiTelegramLogo className="p-1 rounded-full" size={30} />
-        <SlSocialFacebook className="p-1 rounded-full" size={30} />
-        <FaInstagram className="p-1 rounded-full" size={30} />
+      <div className="flex gap-3 mb-14">
+        <PiTelegramLogo className="p-1 bg-white rounded-full " size={30} />
+        <SlSocialFacebook className="p-1 bg-white rounded-full" size={30} />
+        <FaInstagram className="p-1 bg-white rounded-full" size={30} />
       </div>
 
       {/* Other pages */}
@@ -38,7 +36,7 @@ function Footer() {
         </Link>
       </div>
 
-      <div className="my-5 w-[90%] h-[1px] border-white border-t-1"></div>
+      <div className="my-5 w-[90%] h-[1px] bg-white"></div>
       <p className="text-white">@rickeymaharjan 2023</p>
     </div>
   )

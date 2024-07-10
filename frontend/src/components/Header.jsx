@@ -7,10 +7,10 @@ import { IoSearchOutline } from "react-icons/io5"
 function Header() {
   return (
     <div className="w-full h-[85px] flex justify-between items-center px-[80px]">
-      <div className="flex gap-7 font-avenir-medium">
-        <p>Explore recipes</p>
-        <p>Favourite</p>
-        <p>Meal plans</p>
+      <div className="flex gap-7">
+        <p className="font-avenir-medium">Explore recipes</p>
+        <p className="font-avenir-medium">Favourite</p>
+        <p className="font-avenir-medium">Meal plans</p>
       </div>
 
       <Link
