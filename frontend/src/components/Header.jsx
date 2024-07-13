@@ -38,7 +38,9 @@ function Header() {
             </Button>
           </Link>
 
-          <Button className="rounded-full">Sign up</Button>
+          <Link to="/signup">
+            <Button className="rounded-full">Sign up</Button>
+          </Link>
         </div>
       </div>
     </div>

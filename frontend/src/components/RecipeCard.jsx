@@ -13,7 +13,7 @@ function RecipeCard({ recipe }) {
   }
 
   return (
-    <div className="w-[320px] flex flex-col gap-2">
+    <div className="flex flex-col flex-1 gap-2">
       <div
         className="relative w-full h-[220px] overflow-hidden rounded-2xl"
         onClick={handleCardClick}

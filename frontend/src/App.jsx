@@ -4,7 +4,7 @@ import Signup from "./pages/Signup"
 import Login from "./pages/Login"
 import Home from "./pages/Home"
 import Recipe from "./pages/Recipe"
-import BaseLayout from "./pages/BaseLayout"
+import BaseLayout from "./layouts/BaseLayout"
 
 function App() {
   return (
@@ -18,7 +18,6 @@ function App() {
         <Route path="/" element={<BaseLayout />}>
           <Route index element={<Home />} />
           <Route path="recipe" element={<Recipe />} />
-          {/* Add more routes with BaseLayout here */}
         </Route>
       </Routes>
     </Router>

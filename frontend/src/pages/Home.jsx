@@ -85,10 +85,10 @@ function Home() {
       {/* Popular Recipes */}
       <div className="flex flex-col w-full gap-4 px-[80px] mb-20">
         <div className="flex items-center justify-between">
-          <h3 className="text-3xl font-avenir-medium">Popular Recipe</h3>
+          <h3 className="text-3xl font-avenir-medium">Popular Recipes</h3>
           <p className="text-gray-500">View more</p>
         </div>
-        <div className="flex gap-6">
+        <div className="flex justify-between gap-6">
           <RecipeCard recipe={recipes[1]} />
           <RecipeCard recipe={recipes[5]} />
           <RecipeCard recipe={recipes[3]} />

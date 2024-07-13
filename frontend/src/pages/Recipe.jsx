@@ -58,7 +58,7 @@ const Nutrition = ({ title, amount }) => {
 const Instruction = ({ index, description }) => {
   return (
     <div className="flex items-center gap-3 mb-3">
-      <div className="flex items-center justify-center w-10 h-10 p-4 text-xl text-white bg-black rounded-full">
+      <div className="flex items-center justify-center w-5 h-5 p-4 text-sm text-white bg-black rounded-full">
         {index}
       </div>
       <p className="text-gray-500">{description}</p>
