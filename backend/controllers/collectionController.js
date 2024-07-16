@@ -1,7 +1,7 @@
 const Collection = require("../models/collectionModel")
 
 // Get all collections
-const getCollections = (req, res) => {
+const getAllCollections = (req, res) => {
   Collection.find()
     .then((collections) => {
       res.json(collections)
