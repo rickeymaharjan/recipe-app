@@ -1,35 +1,37 @@
 require("dotenv").config()
 const express = require("express")
 const mongoose = require("mongoose")
-const morgan = require("morgan")
 
 // Import required modules
+const userRoutes = require("./routes/user")
+const recipeRoutes = require("./routes/recipe")
+const collectionRoutes = require("./routes/collection")
 
 // Create an instance of Express
 const app = express()
 
 // Set up middleware
-app.use(
-  morgan((tokens, req, res) => {
-    return [
-      tokens.method(req, res),
-      tokens.url(req, res),
-      tokens.status(req, res),
-      tokens.res(req, res, "content-length"),
-      "-",
-      tokens["response-time"](req, res),
-      "ms",
-      JSON.stringify(req.body),
-    ].join(" ")
-  })
-)
-
 app.use(express.json())
+
+// Request logger
+const requestLogger = (request, response, next) => {
+  console.log("Method:", request.method)
+  console.log("Path:  ", request.path)
+  console.log("Body:  ", request.body)
+  console.log("---")
+  next()
+}
+
+app.use(requestLogger)
 
 // Define routes
 app.get("/", (req, res) => {
   res.send("Hello, World!")
 })
+
+app.use("/api/users", userRoutes)
+app.use("/api/recipes", recipeRoutes)
+app.use("/api/collections", collectionRoutes)
 
 // Connect to MongoDB
 mongoose
