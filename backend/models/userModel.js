@@ -9,6 +9,7 @@ const UserSchema = new Schema(
     bio: { type: String },
     profileImage: { type: String },
     createdRecipes: [{ type: Schema.Types.ObjectId, ref: "Recipe" }],
+    favoriteRecipes: [{ type: Schema.Types.ObjectId, ref: "Recipe" }],
     collections: [{ type: Schema.Types.ObjectId, ref: "Collection" }],
     mealPlans: [{ type: Schema.Types.ObjectId, ref: "MealPlan" }],
     role: { type: String, enum: ["admin", "user"], default: "user" },
