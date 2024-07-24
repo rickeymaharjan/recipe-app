@@ -13,7 +13,7 @@ router.get("/:id", recipeController.getRecipeById)
 router.post("/", recipeController.createRecipe)
 
 // PUT (update) a recipe by ID
-router.put("/:id", recipeController.updateRecipe)
+router.patch("/:id", recipeController.updateRecipe)
 
 // DELETE a recipe by ID
 router.delete("/:id", recipeController.deleteRecipe)

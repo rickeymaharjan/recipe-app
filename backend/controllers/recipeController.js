@@ -1,4 +1,4 @@
-// Import any necessary modules or models
+// Import Recipe model
 const Recipe = require("../models/recipeModel")
 
 // Controller function to get all recipes
@@ -34,11 +34,17 @@ const getRecipeById = (req, res) => {
 // Controller function to create a new recipe
 const createRecipe = (req, res) => {
   // Extract the recipe data from the request body
-  const { title, ingredients, instructions } = req.body
-  // Logic to create a new recipe in the database
-  const newRecipe = Recipe.create({ title, ingredients, instructions })
-  // Return the newly created recipe as a response
-  newRecipe
+  const recipeData = req.body
+
+  // Filter out empty strings from the instructions array
+  if (Array.isArray(recipeData.instructions)) {
+    recipeData.instructions = recipeData.instructions.filter(
+      (instruction) => instruction.trim() !== ""
+    )
+  }
+
+  // Create the new recipe
+  Recipe.create(recipeData)
     .then((newRecipe) => {
       res.json(newRecipe)
     })
@@ -52,8 +58,12 @@ const updateRecipe = (req, res) => {
   // Extract the recipe ID from the request parameters
   const { id } = req.params
 
-  const updatedRecipe = Recipe.findByIdAndUpdate(id, { ...req.body })
-  // If the recipe is not found, return a 404 error
+  const updatedRecipe = Recipe.findByIdAndUpdate(
+    id,
+    { ...req.body },
+    { new: true }
+  )
+
   updatedRecipe
     .then((updatedRecipe) => {
       if (!updatedRecipe) {

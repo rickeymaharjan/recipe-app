@@ -1,6 +1,8 @@
 require("dotenv").config()
 const express = require("express")
 const mongoose = require("mongoose")
+const Grid = require("gridfs-stream")
+const cors = require("cors")
 
 // Import required modules
 const userRoutes = require("./routes/user")
@@ -11,6 +13,7 @@ const collectionRoutes = require("./routes/collection")
 const app = express()
 
 // Set up middleware
+app.use(cors())
 app.use(express.json())
 
 // Request logger
@@ -38,10 +41,19 @@ mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log("Connected to MongoDB")
+
+    // // Initialize GridFS
+    // const conn = mongoose.connection
+    // const gfs = Grid(conn.db, mongoose.mongo)
+    // gfs.collection("uploads")
+
+    // // Make gfs available globally
+    // app.locals.gfs = gfs
+
     // Start the server
-    app.listen(3000, () => {
+    app.listen(process.env.PORT || 3000, () => {
       console.log(
-        `Server started on port http://localhost:${process.env.PORT}/`
+        `Server started on port http://localhost:${process.env.PORT || 3000}/`
       )
     })
   })

@@ -13,7 +13,9 @@ router.get("/:id", collectionController.getCollectionById)
 router.post("/", collectionController.createCollection)
 
 // PUT/update a collection by ID
-router.put("/:id", collectionController.updateCollection)
+router.patch("/:id", collectionController.updateCollection)
+
+// router.patch("/:id", collectionController.addRecipeToCollection)
 
 // DELETE a collection by ID
 router.delete("/:id", collectionController.deleteCollection)

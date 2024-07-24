@@ -52,6 +52,34 @@ const updateCollection = (req, res) => {
     })
 }
 
+// Add recipe to a collection
+const addRecipeToCollection = (req, res) => {
+  const { collectionId, recipeId } = req.params
+
+  Collection.findById(collectionId)
+    .then((collection) => {
+      if (!collection) {
+        return res.status(404).json({ error: "Collection not found" })
+      }
+
+      // Check if recipe already exists in the collection
+      if (collection.recipes.includes(recipeId)) {
+        return res
+          .status(400)
+          .json({ error: "Recipe already exists in the collection" })
+      }
+
+      // Add the recipe to the collection
+      collection.recipes.push(recipeId)
+      collection.save()
+
+      res.json(collection)
+    })
+    .catch((error) => {
+      res.status(500).json({ error: "Server error" })
+    })
+}
+
 // Delete a collection by ID
 const deleteCollection = (req, res) => {
   Collection.findByIdAndDelete(req.params.id)
@@ -67,9 +95,10 @@ const deleteCollection = (req, res) => {
 }
 
 module.exports = {
-  getAllCollections, // Get all collections
-  getCollectionById, // Get collection by ID
-  createCollection, // Create a new collection
-  updateCollection, // Update a collection by ID
-  deleteCollection, // Delete a collection by ID
+  getAllCollections,
+  getCollectionById,
+  createCollection,
+  updateCollection,
+  deleteCollection,
+  addRecipeToCollection,
 }

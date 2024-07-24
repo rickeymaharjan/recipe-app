@@ -26,16 +26,21 @@ const getUserById = (req, res) => {
 }
 
 // Controller function to create a new user
-const createUser = (req, res) => {
-  const newUser = new User(req.body)
-  newUser
-    .save()
-    .then((user) => {
-      res.status(201).json(user)
-    })
-    .catch((error) => {
-      res.status(500).json({ error: "Server error" })
-    })
+const createUser = async (req, res) => {
+  const { email } = req.body
+
+  try {
+    const existingUser = await User.findOne({ email })
+    if (existingUser) {
+      return res.status(409).json({ error: "User already exists" })
+    }
+
+    const newUser = new User(req.body)
+    const user = await newUser.save()
+    return res.status(201).json(user)
+  } catch (error) {
+    return res.status(500).json({ error: "Server error" })
+  }
 }
 
 // Controller function to update a user by ID

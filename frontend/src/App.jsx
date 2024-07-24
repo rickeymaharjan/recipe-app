@@ -5,6 +5,7 @@ import Login from "./pages/Login"
 import Home from "./pages/Home"
 import Recipe from "./pages/Recipe"
 import BaseLayout from "./layouts/BaseLayout"
+import AddImage from "./pages/AddImage"
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/" element={<BaseLayout />}>
           <Route index element={<Home />} />
           <Route path="recipe" element={<Recipe />} />
+          <Route path="addImage" element={<AddImage />} />
         </Route>
       </Routes>
     </Router>

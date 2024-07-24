@@ -11,8 +11,9 @@ const UserSchema = new Schema(
     createdRecipes: [{ type: Schema.Types.ObjectId, ref: "Recipe" }],
     collections: [{ type: Schema.Types.ObjectId, ref: "Collection" }],
     mealPlans: [{ type: Schema.Types.ObjectId, ref: "MealPlan" }],
+    role: { type: String, enum: ["admin", "user"], default: "user" },
   },
-  { timestamps: true }
+  { timestamps: true, strict: true }
 )
 
 module.exports = mongoose.model("User", UserSchema)
