@@ -33,12 +33,7 @@ const recipeData = {
 }
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import DialogPop from "@/components/DialogPop"
 
 import { LuBookmark } from "react-icons/lu"
@@ -47,10 +42,10 @@ import { LuPlus } from "react-icons/lu"
 const Nutrition = ({ title, amount }) => {
   return (
     <div className="bg-black w-[68px] h-[110px] flex flex-col items-center py-3 rounded-full">
-      <div className="flex items-center justify-center w-12 h-12 bg-white rounded-full">
+      <div className="flex items-center justify-center w-12 h-12 mb-2 bg-white rounded-full">
         {amount}
       </div>
-      <span className="text-white bg-black">{title}</span>
+      <span className="text-sm text-white bg-black">{title}</span>
     </div>
   )
 }
@@ -78,9 +73,7 @@ function Recipe() {
           </Avatar>
           <div className="flex flex-col justify-center ml-4">
             <p className="font-avenir-medium">Rickey Thompson</p>
-            <p className="text-sm text-gray-500 font-avenir-medium">
-              June 15, 2022
-            </p>
+            <p className="text-sm text-gray-500 font-avenir-medium">June 15, 2022</p>
           </div>
         </div>
 
@@ -141,9 +134,7 @@ function Recipe() {
 
           {/* Ingredients list */}
           <div className="w-full bg-white border px-[30px] py-[25px] rounded-xl">
-            <p className="mb-4 text-3xl italic font-bold font-recipeTitle">
-              Ingredients
-            </p>
+            <p className="mb-4 text-3xl italic font-bold font-recipeTitle">Ingredients</p>
 
             <div className="flex flex-col">
               {recipeData.ingredients.map((ingredient, index) => (
@@ -152,9 +143,7 @@ function Recipe() {
                   className="flex justify-between pb-3 text-gray-500 bg-white font-avenir-medium"
                 >
                   <p>{ingredient.name}</p>
-                  <p className="text-black font-avenir-medium">
-                    {ingredient.quantity}
-                  </p>
+                  <p className="text-black font-avenir-medium">{ingredient.quantity}</p>
                 </div>
               ))}
             </div>
@@ -179,8 +168,7 @@ function Recipe() {
                 Prep <span className="text-black font-avenir-medium">20m</span>
               </p>
               <p className="text-gray-500 font-avenir-medium">
-                Cooking{" "}
-                <span className="text-black font-avenir-medium">20m</span>
+                Cooking <span className="text-black font-avenir-medium">20m</span>
               </p>
             </div>
 
@@ -197,15 +185,9 @@ function Recipe() {
 
             {/* Instructions */}
             <div className="flex flex-col gap-1 bg-white border px-[30px] py-[25px] rounded-xl">
-              <p className="mb-4 text-3xl italic font-bold font-recipeTitle">
-                Instructions
-              </p>
+              <p className="mb-4 text-3xl italic font-bold font-recipeTitle">Instructions</p>
               {recipeData.instructions.map((instruction, index) => (
-                <Instruction
-                  key={index}
-                  index={index + 1}
-                  description={instruction}
-                />
+                <Instruction key={index} index={index + 1} description={instruction} />
               ))}
             </div>
           </div>
