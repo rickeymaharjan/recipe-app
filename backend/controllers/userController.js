@@ -1,4 +1,34 @@
 const User = require("../models/userModel")
+const jwt = require("jsonwebtoken")
+
+const createToken = (id) => {
+  return jwt.sign({ id }, process.env.SECRET, { expiresIn: "1h" })
+}
+
+const loginUser = (req, res) => {
+  const { email, password } = req.body
+  User.login(email, password)
+    .then((user) => {
+      const token = createToken(user.id)
+      return res.status(200).json({ email, token })
+    })
+    .catch((error) => {
+      return res.status(400).json({ error: error.message })
+    })
+}
+
+const signupUser = (req, res) => {
+  const { username, email, password } = req.body
+
+  User.signup(username, email, password)
+    .then((user) => {
+      const token = createToken(user.id)
+      return res.status(200).json({ email, token })
+    })
+    .catch((error) => {
+      return res.status(400).json({ error: error.message })
+    })
+}
 
 // Controller function to get all users
 const getAllUsers = (req, res) => {
@@ -31,6 +61,7 @@ const createUser = async (req, res) => {
 
   try {
     const existingUser = await User.findOne({ email })
+
     if (existingUser) {
       return res.status(409).json({ error: "User already exists" })
     }
@@ -78,4 +109,6 @@ module.exports = {
   createUser,
   updateUserById,
   deleteUserById,
+  loginUser,
+  signupUser,
 }

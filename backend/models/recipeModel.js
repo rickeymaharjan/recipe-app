@@ -15,7 +15,7 @@ const RecipeSchema = new Schema(
     imageFilename: { type: String },
     tags: [String],
     createdBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
-    ratings: [{ type: Schema.Types.ObjectId, ref: "Rating" }],
+    reviews: [{ type: Schema.Types.ObjectId, ref: "Review" }],
     category: { type: String, required: true },
     prepTime: { type: Number, required: true },
     cookTime: { type: Number, required: true },

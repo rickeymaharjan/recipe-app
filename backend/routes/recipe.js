@@ -1,6 +1,6 @@
 const express = require("express")
 const recipeController = require("../controllers/recipeController")
-
+const requireAuth = require("../middlewares/requireAuth")
 const router = express.Router()
 
 // GET all recipes
@@ -10,7 +10,7 @@ router.get("/", recipeController.getAllRecipes)
 router.get("/:id", recipeController.getRecipeById)
 
 // POST a new recipe
-router.post("/", recipeController.createRecipe)
+router.post("/", requireAuth, recipeController.createRecipe)
 
 // PUT (update) a recipe by ID
 router.patch("/:id", recipeController.updateRecipe)

@@ -27,7 +27,8 @@ const getCollectionById = (req, res) => {
 
 // Create a new collection
 const createCollection = (req, res) => {
-  const newCollection = new Collection(req.body)
+  const newCollection = new Collection({ ...req.body, createdBy: req.user_id })
+
   newCollection
     .save()
     .then((collection) => {
@@ -64,9 +65,7 @@ const addRecipeToCollection = (req, res) => {
 
       // Check if recipe already exists in the collection
       if (collection.recipes.includes(recipeId)) {
-        return res
-          .status(400)
-          .json({ error: "Recipe already exists in the collection" })
+        return res.status(400).json({ error: "Recipe already exists in the collection" })
       }
 
       // Add the recipe to the collection

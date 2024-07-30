@@ -1,6 +1,6 @@
 const express = require("express")
 const collectionController = require("../controllers/collectionController")
-
+const requireAuth = require("../middlewares/requireAuth")
 const router = express.Router()
 
 // GET all collections
@@ -10,7 +10,7 @@ router.get("/", collectionController.getAllCollections)
 router.get("/:id", collectionController.getCollectionById)
 
 // POST a new collection
-router.post("/", collectionController.createCollection)
+router.post("/", requireAuth, collectionController.createCollection)
 
 // PUT/update a collection by ID
 router.patch("/:id", collectionController.updateCollection)

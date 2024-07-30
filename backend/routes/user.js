@@ -19,6 +19,12 @@ router.patch("/:id", userController.updateUserById)
 // Delete user by ID
 router.delete("/:id", userController.deleteUserById)
 
+// Login user
+router.post("/login", userController.loginUser)
+
+// Signup user
+router.post("/signup", userController.signupUser)
+
 module.exports = router
 
 module.exports = router

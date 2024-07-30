@@ -34,7 +34,7 @@ const getRecipeById = (req, res) => {
 // Controller function to create a new recipe
 const createRecipe = (req, res) => {
   // Extract the recipe data from the request body
-  const recipeData = req.body
+  const recipeData = { ...req.body, createdBy: req.user_id }
 
   // Filter out empty strings from the instructions array
   if (Array.isArray(recipeData.instructions)) {
@@ -58,11 +58,7 @@ const updateRecipe = (req, res) => {
   // Extract the recipe ID from the request parameters
   const { id } = req.params
 
-  const updatedRecipe = Recipe.findByIdAndUpdate(
-    id,
-    { ...req.body },
-    { new: true }
-  )
+  const updatedRecipe = Recipe.findByIdAndUpdate(id, { ...req.body }, { new: true })
 
   updatedRecipe
     .then((updatedRecipe) => {
