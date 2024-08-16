@@ -13,7 +13,7 @@ const loginUser = (req, res) => {
       return res.status(200).json({ email, token })
     })
     .catch((error) => {
-      return res.status(400).json({ error: error.message })
+      return res.status(400).json({ error: `${error}` })
     })
 }
 
@@ -26,7 +26,7 @@ const signupUser = (req, res) => {
       return res.status(200).json({ email, token })
     })
     .catch((error) => {
-      return res.status(400).json({ error: error.message })
+      return res.status(400).json({ error: "Internal server error" })
     })
 }
 
@@ -37,7 +37,7 @@ const getAllUsers = (req, res) => {
       res.status(200).json(users)
     })
     .catch((error) => {
-      res.status(500).json({ error: "Server error" })
+      res.status(500).json({ error: "Internal server error" })
     })
 }
 
@@ -51,7 +51,28 @@ const getUserById = (req, res) => {
       res.status(200).json(user)
     })
     .catch((error) => {
-      res.status(500).json({ error: "Server error" })
+      res.status(500).json({ error: "Internal server error" })
+    })
+}
+
+// Get current user
+const getCurrentUser = (req, res) => {
+  console.log("currentUserTrigger")
+  const userId = req.user_id
+  if (!userId) {
+    return res.status(401).json({ error: "User not authenticated" })
+  }
+
+  User.findById(userId)
+    .then((user) => {
+      if (!user) {
+        return res.status(404).json({ error: "User not found" })
+      }
+      res.status(200).json(user)
+    })
+    .catch((error) => {
+      console.log("Error fetching current user:", error)
+      res.status(500).json({ error: "Internal Server error" })
     })
 }
 
@@ -70,7 +91,7 @@ const createUser = async (req, res) => {
     const user = await newUser.save()
     return res.status(201).json(user)
   } catch (error) {
-    return res.status(500).json({ error: "Server error" })
+    return res.status(500).json({ error: "Internal server error" })
   }
 }
 
@@ -84,7 +105,7 @@ const updateUserById = (req, res) => {
       res.status(200).json(user)
     })
     .catch((error) => {
-      res.status(500).json({ error: "Server error" })
+      res.status(500).json({ error: "Internal server error" })
     })
 }
 
@@ -98,8 +119,12 @@ const deleteUserById = (req, res) => {
       res.status(200).json({ message: "User deleted successfully" })
     })
     .catch((error) => {
-      res.status(500).json({ error: "Server error" })
+      res.status(500).json({ error: "Internal server error" })
     })
+}
+
+const checkToken = (req, res) => {
+  res.status(200).json({ message: "Token is valid" })
 }
 
 // Export the controller functions
@@ -111,4 +136,6 @@ module.exports = {
   deleteUserById,
   loginUser,
   signupUser,
+  getCurrentUser,
+  checkToken,
 }
