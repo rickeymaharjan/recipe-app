@@ -88,12 +88,12 @@ function Home() {
           <h3 className="text-3xl font-avenir-medium">Popular Recipes</h3>
           <p className="text-gray-500">View more</p>
         </div>
-        <div className="flex justify-between gap-6">
+        {/* <div className="flex justify-between gap-6">
           <RecipeCard recipe={recipes[1]} />
           <RecipeCard recipe={recipes[5]} />
           <RecipeCard recipe={recipes[3]} />
           <RecipeCard recipe={recipes[5]} />
-        </div>
+        </div> */}
       </div>
 
       {/* Additional Information */}

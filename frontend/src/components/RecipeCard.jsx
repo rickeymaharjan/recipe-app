@@ -2,26 +2,29 @@ import { LuBookmark } from "react-icons/lu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { WiTime4 } from "react-icons/wi"
 
+import { useNavigate } from "react-router-dom"
+
 function RecipeCard({ recipe }) {
+  const navigate = useNavigate()
+
   const handleCardClick = () => {
-    console.log("Recipe card clicked")
+    navigate(`/recipe/${recipe._id}`)
   }
 
   const handleBookmarkClick = (event) => {
     event.stopPropagation()
-    console.log("Save button clicked")
   }
 
   return (
-    <div className="flex flex-col flex-1 gap-2">
+    <div className="flex flex-col gap-2">
       <div
-        className="relative w-full h-[220px] overflow-hidden rounded-2xl"
+        className="relative overflow-hidden rounded-2xl"
         onClick={handleCardClick}
       >
         {/* Image */}
         <img
-          className="object-cover w-full h-full rounded-2xl "
-          src={recipe.image}
+          className="object-cover w-full aspect-[4/3] rounded-2xl "
+          src={recipe.imageFilename}
           alt={recipe.title}
         />
 
@@ -39,7 +42,9 @@ function RecipeCard({ recipe }) {
                 <p className="text-base">{recipe.title}</p>
                 <div className="flex items-center gap-1 bg-transparent ">
                   <WiTime4 className="bg-transparent" size={20} />
-                  <p className="text-sm bg-transparent ">{recipe.duration}</p>
+                  <p className="text-sm bg-transparent ">
+                    {recipe.totalTime} mins
+                  </p>
                 </div>
               </div>
               <LuBookmark
@@ -55,10 +60,12 @@ function RecipeCard({ recipe }) {
 
       <div className="flex items-center gap-2">
         <Avatar className="w-7 h-7">
-          <AvatarImage src="https://github.com/shadcn.png" />
-          <AvatarFallback>CN</AvatarFallback>
+          <AvatarImage src={recipe.createdBy.profileImage} />
+          <AvatarFallback>{recipe.createdBy.username[0]}</AvatarFallback>
         </Avatar>
-        <p className="text-sm font-avenir-medium">Morty Chauncey</p>
+        <p className="text-sm font-avenir-medium">
+          {recipe.createdBy.username}
+        </p>
       </div>
     </div>
   )

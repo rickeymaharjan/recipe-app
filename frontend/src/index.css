@@ -40,6 +40,12 @@ p {
   font-family: "Avenir-Regular";
 }
 
+@layer utilities {
+  .common-padding {
+    @apply px-[20px] md:px-[30px] lg:px-[70px] xl:px-[80px];
+  }
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
