@@ -1,19 +1,26 @@
+// ShadCN components
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
+// React
 import { useState } from "react"
 import { Link } from "react-router-dom"
+import { useSelector } from "react-redux"
+
+import { registerUser } from "@/features/authSlice"
+import { useDispatch } from "react-redux"
 
 function Signup() {
+  const dispatch = useDispatch()
+  const auth = useSelector((state) => state.auth)
+
   const [username, setUsername] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
   const handleLogin = () => {
-    console.log("Username:", username)
-    console.log("Email:", email)
-    console.log("Password:", password)
+    dispatch(registerUser({ email, password, username }))
   }
 
   return (
@@ -64,8 +71,10 @@ function Signup() {
           </div>
 
           <Button className="mb-8 xl:mb-6" onClick={handleLogin}>
-            Signup
+            {auth.loading ? "Loading..." : "Signup"}
           </Button>
+
+          {auth.error ? <p className="text-red-500">{auth.error}</p> : null}
 
           <p className="text-sm text-gray-500 mb-2">
             Already have an account?{" "}
