@@ -6,6 +6,9 @@ const router = express.Router()
 // GET all recipes
 router.get("/", recipeController.getAllRecipes)
 
+// GET all recipes by user ID
+router.get("/user/:id", recipeController.getAllRecipesByUserId)
+
 // GET a specific recipe by ID
 router.get("/:id", recipeController.getRecipeById)
 

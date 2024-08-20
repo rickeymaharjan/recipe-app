@@ -10,6 +10,9 @@ router.get("/", userController.getAllUsers)
 // Get current user
 router.get("/me", requireAuth, userController.getCurrentUser)
 
+// Get user by username
+router.get("/username/:username", userController.getUserByUsername)
+
 // Check token
 router.get("/checkToken", requireAuth, userController.checkToken)
 

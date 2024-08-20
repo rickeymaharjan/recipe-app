@@ -1,8 +1,9 @@
 const User = require("../models/userModel")
 const jwt = require("jsonwebtoken")
+const bcrypt = require("bcrypt")
 
 const createToken = (id) => {
-  return jwt.sign({ id }, process.env.SECRET, { expiresIn: "1h" })
+  return jwt.sign({ id }, process.env.SECRET, { expiresIn: "12h" })
 }
 
 const loginUser = (req, res) => {
@@ -10,7 +11,9 @@ const loginUser = (req, res) => {
   User.login(email, password)
     .then((user) => {
       const token = createToken(user.id)
-      return res.status(200).json({ email, token })
+      const { password, createdAt, updatedAt, ...userWithoutSensitiveInfo } =
+        user._doc
+      return res.status(200).json({ user: userWithoutSensitiveInfo, token })
     })
     .catch((error) => {
       return res.status(400).json({ error: `${error}` })
@@ -23,10 +26,12 @@ const signupUser = (req, res) => {
   User.signup(username, email, password)
     .then((user) => {
       const token = createToken(user.id)
-      return res.status(200).json({ email, token })
+      const { password, createdAt, updatedAt, ...userWithoutSensitiveInfo } =
+        user._doc
+      return res.status(200).json({ user: userWithoutSensitiveInfo, token })
     })
     .catch((error) => {
-      return res.status(400).json({ error: "Internal server error" })
+      return res.status(500).json({ error: `${error}` })
     })
 }
 
@@ -38,6 +43,25 @@ const getAllUsers = (req, res) => {
     })
     .catch((error) => {
       res.status(500).json({ error: "Internal server error" })
+    })
+}
+
+// Controller function to get user by username
+const getUserByUsername = (req, res) => {
+  User.findOne({ username: req.params.username })
+    .then((user) => {
+      if (!user) {
+        return res.status(404).json({ error: "User not found" })
+      }
+      const { password, createdAt, updatedAt, ...userWithoutSensitiveInfo } =
+        user._doc
+
+      res.status(200).json(userWithoutSensitiveInfo)
+    })
+    .catch((error) => {
+      res
+        .status(500)
+        .json({ error: "An error occurred while retrieving the user" })
     })
 }
 
@@ -78,7 +102,7 @@ const getCurrentUser = (req, res) => {
 
 // Controller function to create a new user
 const createUser = async (req, res) => {
-  const { email } = req.body
+  const { email, password } = req.body
 
   try {
     const existingUser = await User.findOne({ email })
@@ -87,7 +111,10 @@ const createUser = async (req, res) => {
       return res.status(409).json({ error: "User already exists" })
     }
 
-    const newUser = new User(req.body)
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassword = await bcrypt.hash(password, salt)
+
+    const newUser = new User({ ...req.body, password: hashedPassword })
     const user = await newUser.save()
     return res.status(201).json(user)
   } catch (error) {
@@ -138,4 +165,5 @@ module.exports = {
   signupUser,
   getCurrentUser,
   checkToken,
+  getUserByUsername,
 }

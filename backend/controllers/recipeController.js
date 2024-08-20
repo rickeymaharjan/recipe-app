@@ -13,12 +13,31 @@ const getAllRecipes = (req, res) => {
     })
 }
 
+// Controller function to get all recipes by user ID
+const getAllRecipesByUserId = (req, res) => {
+  const { id } = req.params
+
+  Recipe.find({ createdBy: id })
+    .populate("createdBy", "username profileImage")
+    .then((recipes) => {
+      if (recipes.length === 0) {
+        return res.status(404).json({ error: "No recipes found for this user" })
+      }
+
+      res.json(recipes)
+    })
+    .catch((error) => {
+      res.status(500).json({ error: "Failed to fetch recipes for this user" })
+    })
+}
+
 // Controller function to get a single recipe by ID
 const getRecipeById = (req, res) => {
   // Extract the recipe ID from the request parameters
   const { id } = req.params
   // Logic to fetch a recipe by ID from the database
   Recipe.findById(id)
+    .populate("createdBy", "username profileImage")
     .then((recipe) => {
       // If the recipe is not found, return a 404 error
       if (!recipe) {
@@ -58,7 +77,11 @@ const updateRecipe = (req, res) => {
   // Extract the recipe ID from the request parameters
   const { id } = req.params
 
-  const updatedRecipe = Recipe.findByIdAndUpdate(id, { ...req.body }, { new: true })
+  const updatedRecipe = Recipe.findByIdAndUpdate(
+    id,
+    { ...req.body },
+    { new: true }
+  )
 
   updatedRecipe
     .then((updatedRecipe) => {
@@ -89,4 +112,5 @@ module.exports = {
   createRecipe,
   updateRecipe,
   deleteRecipe,
+  getAllRecipesByUserId,
 }
