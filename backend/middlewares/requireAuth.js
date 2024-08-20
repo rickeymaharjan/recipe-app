@@ -14,14 +14,12 @@ const requireAuth = async (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.SECRET)
     const id = decoded.id
-    console.log(decoded)
 
     User.findById(id).then((user) => {
       req.user_id = user._id
       next()
     })
   } catch (error) {
-    console.log(error)
     res.status(401).json({ error: "Request is not authorized" })
   }
 }
