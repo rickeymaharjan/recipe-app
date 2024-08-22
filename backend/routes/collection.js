@@ -9,6 +9,12 @@ router.get("/", collectionController.getAllCollections)
 // GET a specific collection by ID
 router.get("/:id", collectionController.getCollectionById)
 
+// GET all collections by user ID
+router.get("/user/:id", collectionController.getCollectionsByUserId)
+
+// GET a specific collection by ID with recipe details
+router.get("/recipes/:id", collectionController.getCollectionsByIdWithRecipes)
+
 // POST a new collection
 router.post("/", requireAuth, collectionController.createCollection)
 

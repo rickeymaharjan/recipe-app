@@ -7,7 +7,7 @@ const getAllCollections = (req, res) => {
       res.json(collections)
     })
     .catch((error) => {
-      res.status(500).json({ error: "Server error" })
+      res.status(500).json({ error: "Error getting all collection" })
     })
 }
 
@@ -21,7 +21,37 @@ const getCollectionById = (req, res) => {
       res.json(collection)
     })
     .catch((error) => {
-      res.status(500).json({ error: "Server error" })
+      res.status(500).json({ error: "Error getting collection by id" })
+    })
+}
+
+// Get collections by user ID
+const getCollectionsByUserId = (req, res) => {
+  Collection.find({ createdBy: req.params.id })
+    .populate("recipes", "imageFilename")
+    .then((collections) => {
+      res.json(collections)
+    })
+    .catch((error) => {
+      res.status(500).json({ error: "Error getting collections by user id" })
+    })
+}
+
+// Get collections by ID with recipe details
+const getCollectionsByIdWithRecipes = (req, res) => {
+  Collection.findById(req.params.id)
+    .populate({
+      path: "recipes",
+      populate: { path: "createdBy" },
+    })
+    .then((collection) => {
+      if (!collection) {
+        return res.status(404).json({ error: "Collection not found" })
+      }
+      res.json(collection)
+    })
+    .catch((error) => {
+      res.status(500).json({ error: "Error getting collection by id" })
     })
 }
 
@@ -35,7 +65,7 @@ const createCollection = (req, res) => {
       res.status(201).json(collection)
     })
     .catch((error) => {
-      res.status(500).json({ error: "Server error" })
+      res.status(500).json({ error: "Error creating collection" })
     })
 }
 
@@ -65,7 +95,9 @@ const addRecipeToCollection = (req, res) => {
 
       // Check if recipe already exists in the collection
       if (collection.recipes.includes(recipeId)) {
-        return res.status(400).json({ error: "Recipe already exists in the collection" })
+        return res
+          .status(400)
+          .json({ error: "Recipe already exists in the collection" })
       }
 
       // Add the recipe to the collection
@@ -100,4 +132,6 @@ module.exports = {
   updateCollection,
   deleteCollection,
   addRecipeToCollection,
+  getCollectionsByUserId,
+  getCollectionsByIdWithRecipes,
 }

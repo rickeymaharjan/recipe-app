@@ -5,6 +5,7 @@ const Recipe = require("../models/recipeModel")
 const getAllRecipes = (req, res) => {
   // Return the fetched recipes as a response
   Recipe.find({})
+    .populate("createdBy", "username profileImage")
     .then((recipes) => {
       res.json(recipes)
     })

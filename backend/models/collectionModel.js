@@ -5,7 +5,7 @@ const CollectionSchema = new Schema(
   {
     name: { type: String, required: true },
     recipes: [{ type: Schema.Types.ObjectId, ref: "Recipe" }],
-    user: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    createdBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
   },
   { timestamps: true }
 )
