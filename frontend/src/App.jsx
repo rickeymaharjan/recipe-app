@@ -10,11 +10,13 @@ import BaseLayout from "./layouts/BaseLayout"
 import AddRecipe from "./pages/AddRecipe"
 import Profile from "./pages/Profile"
 import UserRecipe from "@/components/profile/UserRecipe"
+import Recipes from "./pages/Recipes"
 
 import { checkToken, selectAuthToken, selectUser } from "./features/authSlice"
 import WithAuthRedirect from "./auth/WithAuthRedirect"
 import UserCollection from "./components/profile/UserCollection"
 import UserMealPlanning from "./components/profile/UserMealPlanning"
+import Collection from "./pages/Collection"
 
 function App() {
   const token = useSelector(selectAuthToken)
@@ -65,9 +67,16 @@ function App() {
               element={<UserMealPlanning loggedInUsername={loggedInUsername} />}
             />
           </Route>
+
+          <Route path="recipes" element={<Recipes />} />
+
           <Route
             path="recipe/:recipeId"
             element={<Recipe loggedInUsername={loggedInUsername} />}
+          />
+          <Route
+            path=":username/collections/:collectionId"
+            element={<Collection loggedInUsername={loggedInUsername} />}
           />
         </Route>
       </Routes>
