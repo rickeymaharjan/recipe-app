@@ -59,7 +59,7 @@ const UserRecipe = () => {
     )
 
   return (
-    <div>
+    <div className="mb-10">
       <RecipeList recipes={recipes} />
       {isOwner && (
         <div className="flex justify-center">
