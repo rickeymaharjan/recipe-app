@@ -65,7 +65,6 @@ const UserCollection = () => {
             }`
           )
           setCollections(response.data)
-          if (response.data.length === 0) setError("No collections yet.")
         } catch (error) {
           setError(error.response.data.error)
         } finally {
@@ -79,43 +78,13 @@ const UserCollection = () => {
 
   if (loading) return <CardSkeleton amount={4} />
 
-  if (error)
-    return (
-      <>
-        <EmptyMessage message="No collections yet." />
-        {isOwner && (
-          <div className="flex justify-center">
-            <Dialog>
-              <DialogTrigger asChild>
-                <div className="rounded-full mt-5 cursor-pointer">
-                  <Button className="rounded-full">Create a Collection</Button>
-                </div>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Name your collection.</DialogTitle>
-                  <DialogDescription>
-                    Please enter a name for your new collection.
-                  </DialogDescription>
-                </DialogHeader>
-                <Input
-                  onChange={(e) => setInput(e.target.value)}
-                  placeholder="Collection name"
-                />
-                <DialogFooter>
-                  <Button onClick={handleClick} type="submit">
-                    Create Collection
-                  </Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
-          </div>
-        )}
-      </>
-    )
+  if (error) return <EmptyMessage message="No collections yet." />
 
   return (
     <div>
+      {collections.length === 0 && (
+        <EmptyMessage message="No collections yet." />
+      )}
       <CollectionList collections={collections} />
       {isOwner && (
         <div className="flex justify-center">
