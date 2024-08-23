@@ -46,9 +46,6 @@ function Profile({ loggedInUsername }) {
           `${import.meta.env.VITE_BACKEND_URL}/api/users/username/${username}`
         )
         setUserData(response.data)
-        if (location.pathname === `${username}`) {
-          navigate(`${username}`)
-        }
       } catch (err) {
         setError(err.response.data.error)
       } finally {
@@ -99,7 +96,7 @@ function Profile({ loggedInUsername }) {
 
       <hr className="mb-5" />
 
-      <Outlet />
+      <Outlet context={{ userData, isOwner }} />
     </div>
   )
 }

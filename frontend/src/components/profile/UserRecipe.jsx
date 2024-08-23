@@ -2,45 +2,22 @@
 import { Button } from "../ui/button"
 
 // React
-import { useParams, Link } from "react-router-dom"
+import { Link, useOutletContext } from "react-router-dom"
 import { useState, useEffect } from "react"
 
 // Custom components
-import RecipeList from "../RecipeList"
+import RecipeList from "../recipePage/RecipeList"
 import CardSkeleton from "../CardSkeleton"
 import EmptyMessage from "../recipePage/EmptyMessage"
 
 import axios from "axios"
 
-const UserRecipe = ({ loggedInUsername }) => {
-  const { username } = useParams()
-
-  const [userData, setUserData] = useState(null)
+const UserRecipe = () => {
+  const { userData, isOwner } = useOutletContext()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
   const [recipes, setRecipes] = useState([])
-
-  const isOwner = username === loggedInUsername
-
-  // Fetching user data
-  useEffect(() => {
-    const fetchUserData = async () => {
-      setLoading(true)
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/api/users/username/${username}`
-        )
-        setUserData(response.data)
-      } catch (error) {
-        setError(error.response.data.error)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchUserData()
-  }, [username])
 
   // Fetching user recipes
   useEffect(() => {

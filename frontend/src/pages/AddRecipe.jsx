@@ -23,9 +23,7 @@ import IngredientInput from "@/components/recipeForm/IngredientInput"
 import InstructionInput from "@/components/recipeForm/InstructionInput"
 
 function AddRecipe() {
-  const [ingredients, setIngredients] = useState(
-    Array(4).fill({ name: "", quantity: "" })
-  )
+  const [ingredients, setIngredients] = useState([{ name: "", quantity: "" }])
 
   const [instructions, setInstructions] = useState(Array(4).fill(""))
 

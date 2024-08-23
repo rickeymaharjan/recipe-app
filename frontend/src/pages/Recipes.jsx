@@ -4,13 +4,13 @@ import axios from "axios"
 import { Button } from "@/components/ui/button"
 
 import CardSkeleton from "@/components/CardSkeleton"
-import RecipeList from "@/components/RecipeList"
+import RecipeList from "@/components/recipePage/RecipeList"
 
 const Recipes = () => {
   const [recipes, setRecipes] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  const [activeTab, setActiveTab] = useState("BreakFast") // Set default active tab
+  const [activeTab, setActiveTab] = useState("BreakFast")
 
   const tabs = [
     { name: "BreakFast", path: "" },

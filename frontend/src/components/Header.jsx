@@ -37,7 +37,6 @@ function Header() {
 
   const handleLogoutClick = () => {
     dispatch(logout())
-    navigate("/")
   }
 
   const handleProfileClick = () => {
@@ -47,9 +46,11 @@ function Header() {
   return (
     <div className="w-full h-[75px] drop-shadow-sm flex justify-between items-center common-padding bg-white">
       <div className="lg:flex gap-7 hidden">
-        <p className="font-avenir-medium font-bold text-gray-500 hover:text-black cursor-pointer">
-          Explore recipes
-        </p>
+        <Link to="/recipes">
+          <p className="font-avenir-medium font-bold text-gray-500 hover:text-black cursor-pointer">
+            Explore recipes
+          </p>
+        </Link>
         <p className="font-avenir-medium font-bold text-gray-500 hover:text-black cursor-pointer">
           Favourite
         </p>

@@ -3,6 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { WiTime4 } from "react-icons/wi"
 
 import { useNavigate } from "react-router-dom"
+import { Skeleton } from "../ui/skeleton"
 
 function RecipeCard({ recipe }) {
   const navigate = useNavigate()
@@ -24,7 +25,11 @@ function RecipeCard({ recipe }) {
         {/* Image */}
         <img
           className="object-cover w-full aspect-[4/3] rounded-2xl "
-          src={recipe.imageFilename}
+          src={
+            recipe.imageFilename || (
+              <Skeleton className={`w-full aspect-[4/3]`} />
+            )
+          }
           alt={recipe.title}
         />
 

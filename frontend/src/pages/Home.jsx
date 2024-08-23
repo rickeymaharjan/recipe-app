@@ -1,7 +1,6 @@
 import Marquee from "react-fast-marquee"
 import CarouselCard from "@/components/CarouselCard"
 import { Button } from "@/components/ui/button"
-import RecipeCard from "@/components/RecipeCard"
 
 //  Mock up data for carausel
 const recipes = [

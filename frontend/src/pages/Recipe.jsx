@@ -14,13 +14,14 @@ import { LuBookmark } from "react-icons/lu"
 import { LuPlus } from "react-icons/lu"
 
 // React
-import { useParams } from "react-router-dom"
+import { useParams, Link } from "react-router-dom"
 import { useEffect, useState } from "react"
 
 import axios from "axios"
 import NotFound from "./NotFound"
 import RecipePageSkeleton from "@/components/recipePage/RecipePageSkeleton"
 import { useSelector } from "react-redux"
+import { format } from "date-fns"
 
 const Nutrition = ({ title, amount }) => {
   return (
@@ -82,16 +83,22 @@ function Recipe() {
       {/* Profile section */}
       <div className="sticky top-0 flex items-center justify-between w-full py-3 mb-4 bg-gray-50">
         <div className="flex">
-          <Avatar className="w-12 h-12">
-            <AvatarImage src={recipeData.createdBy.profileImage} />
-            <AvatarFallback>{recipeData.createdBy.username[0]}</AvatarFallback>
-          </Avatar>
+          <Link to={`/${recipeData.createdBy.username}`}>
+            <Avatar className="w-12 h-12 cursor-pointer">
+              <AvatarImage src={recipeData.createdBy.profileImage} />
+              <AvatarFallback>
+                {recipeData.createdBy.username[0]}
+              </AvatarFallback>
+            </Avatar>
+          </Link>
           <div className="flex flex-col justify-center ml-4">
-            <p className="font-avenir-medium">
-              {recipeData.createdBy.username}
-            </p>
+            <Link to={`/${recipeData.createdBy.username}`}>
+              <p className="font-avenir-medium cursor-pointer">
+                {recipeData.createdBy.username}
+              </p>
+            </Link>
             <p className="text-sm text-gray-500 font-avenir-medium">
-              June 15, 2022
+              {format(new Date(recipeData.createdAt), "MMMM dd, yyyy")}
             </p>
           </div>
         </div>
