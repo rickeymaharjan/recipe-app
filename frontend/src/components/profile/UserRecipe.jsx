@@ -63,7 +63,7 @@ const UserRecipe = () => {
       <RecipeList recipes={recipes} />
       {isOwner && (
         <div className="flex justify-center">
-          <Button className="rounded-full my-12">
+          <Button className="rounded-full my-10">
             <Link to="/add-recipe">Add Recipe</Link>
           </Button>
         </div>

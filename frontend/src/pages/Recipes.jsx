@@ -25,7 +25,6 @@ const Recipes = () => {
         const response = await axios.get(
           `${import.meta.env.VITE_BACKEND_URL}/api/recipes`
         )
-        console.log(response.data)
         setRecipes(response.data)
       } catch (error) {
         setError(error.response.data.error)

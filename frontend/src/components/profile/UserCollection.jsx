@@ -90,7 +90,7 @@ const UserCollection = () => {
         <div className="flex justify-center">
           <Dialog>
             <DialogTrigger asChild>
-              <div className="rounded-full mt-5 cursor-pointer">
+              <div className="rounded-full my-10 cursor-pointer">
                 <Button className="rounded-full">Create a Collection</Button>
               </div>
             </DialogTrigger>

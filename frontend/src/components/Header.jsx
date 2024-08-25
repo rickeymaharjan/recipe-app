@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar"
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 
 // Icons
 import { IoSearchOutline } from "react-icons/io5"
@@ -66,7 +66,7 @@ function Header() {
         Fresh Feast
       </Link>
 
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-2">
         <div className="relative w-[225px] h-[35px]">
           <Input
             className="w-full h-full pl-10 rounded-full "
@@ -76,7 +76,6 @@ function Header() {
             <IoSearchOutline />
           </div>
         </div>
-        <div className="flex items-center gap-2"></div>
 
         {!isAuthenticated ? (
           <div className="flex gap-1">
@@ -93,7 +92,7 @@ function Header() {
         ) : (
           <DropdownMenu>
             <DropdownMenuTrigger className="border w-8 h-8 rounded-full">
-              <Avatar className="w-full h-full">
+              <Avatar className="w-8 h-8">
                 {user.profileImage && (
                   <AvatarImage
                     className="rounded-full"
