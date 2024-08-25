@@ -1,12 +1,5 @@
 // ShadCn
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
-import DialogPop from "@/components/DialogPop"
 import { Button } from "@/components/ui/button"
 
 // Icons
@@ -16,11 +9,14 @@ import { LuPlus } from "react-icons/lu"
 // React
 import { useParams, Link } from "react-router-dom"
 import { useEffect, useState } from "react"
+import { useSelector } from "react-redux"
 
 import axios from "axios"
 import NotFound from "./NotFound"
 import RecipePageSkeleton from "@/components/recipePage/RecipePageSkeleton"
-import { useSelector } from "react-redux"
+import AuthRedirect from "@/components/AuthRedirect"
+import CollectionPopup from "@/components/CollectionPopup"
+import MealPlanPopup from "@/components/MealPlanPopup"
 import { format } from "date-fns"
 
 const Nutrition = ({ title, amount }) => {
@@ -108,45 +104,25 @@ function Recipe() {
             <Button className="rounded-full">Edit recipe</Button>
           ) : (
             <>
-              <DialogPop title="collection">
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <div className="w-[35px] h-[35px]">
-                        {" "}
-                        <LuBookmark
-                          className="p-[10px] rounded-full bg-black cursor-pointer"
-                          size={35}
-                          color="white"
-                        />
-                      </div>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Add to Collection</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              </DialogPop>
+              <AuthRedirect Component={CollectionPopup}>
+                <div className="w-[35px] h-[35px] rounded-full">
+                  <LuBookmark
+                    className="p-[10px] rounded-full bg-black cursor-pointer"
+                    size={35}
+                    color="white"
+                  />
+                </div>
+              </AuthRedirect>
 
-              <DialogPop title="meal plan">
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <div className="w-[35px] h-[35px]">
-                        {" "}
-                        <LuPlus
-                          className="p-[10px] rounded-full bg-black cursor-pointer"
-                          size={35}
-                          color="white"
-                        />
-                      </div>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Add to Meal Plan</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              </DialogPop>
+              <AuthRedirect Component={MealPlanPopup}>
+                <div className="w-[35px] h-[35px]">
+                  <LuPlus
+                    className="p-[10px] rounded-full bg-black cursor-pointer"
+                    size={35}
+                    color="white"
+                  />
+                </div>
+              </AuthRedirect>
             </>
           )}
         </div>
