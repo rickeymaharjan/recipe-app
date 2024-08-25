@@ -85,7 +85,8 @@ const updateCollection = (req, res) => {
 
 // Add recipe to a collection
 const addRecipeToCollection = (req, res) => {
-  const { collectionId, recipeId } = req.params
+  const { collectionId } = req.params
+  const { recipeId } = req.body
 
   Collection.findById(collectionId)
     .then((collection) => {
@@ -102,9 +103,41 @@ const addRecipeToCollection = (req, res) => {
 
       // Add the recipe to the collection
       collection.recipes.push(recipeId)
-      collection.save()
+      return collection.save().then((updatedCollection) => {
+        res.status(201).json(updatedCollection)
+      })
+    })
+    .catch((error) => {
+      res.status(500).json({ error: "Server error" })
+    })
+}
 
-      res.json(collection)
+// Remove recipe from a collection
+const removeRecipeFromCollection = (req, res) => {
+  const { collectionId, recipeId } = req.params
+
+  console.log(collectionId, recipeId)
+
+  Collection.findById(collectionId)
+    .then((collection) => {
+      if (!collection) {
+        return res.status(404).json({ error: "Collection not found" })
+      }
+
+      // Check if recipe exists in the collection
+      if (!collection.recipes.includes(recipeId)) {
+        return res
+          .status(400)
+          .json({ error: "Recipe not found in the collection" })
+      }
+
+      // Remove the recipe from the collection
+      collection.recipes = collection.recipes.filter(
+        (id) => id.toString() !== recipeId.toString()
+      )
+      return collection.save().then((updatedCollection) => {
+        res.status(200).json(updatedCollection)
+      })
     })
     .catch((error) => {
       res.status(500).json({ error: "Server error" })
@@ -132,6 +165,7 @@ module.exports = {
   updateCollection,
   deleteCollection,
   addRecipeToCollection,
+  removeRecipeFromCollection,
   getCollectionsByUserId,
   getCollectionsByIdWithRecipes,
 }

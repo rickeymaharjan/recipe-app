@@ -21,7 +21,17 @@ router.post("/", requireAuth, collectionController.createCollection)
 // PUT/update a collection by ID
 router.patch("/:id", collectionController.updateCollection)
 
-// router.patch("/:id", collectionController.addRecipeToCollection)
+// POST/add a recipe to a collection
+router.post(
+  "/:collectionId/add-recipe",
+  collectionController.addRecipeToCollection
+)
+
+// DELETE/remove a recipe from a collection
+router.delete(
+  "/:collectionId/remove-recipe/:recipeId",
+  collectionController.removeRecipeFromCollection
+)
 
 // DELETE a collection by ID
 router.delete("/:id", collectionController.deleteCollection)
