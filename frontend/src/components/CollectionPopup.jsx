@@ -52,7 +52,6 @@ const CollectionPopup = () => {
   )
 
   const handleAdd = async (collectionId) => {
-    console.log(collectionId)
     try {
       await axios.post(
         `${
