@@ -10,10 +10,11 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog"
 import { Input } from "../ui/input"
+import { toast } from "sonner"
 
 // React
-import { useOutletContext } from "react-router-dom"
-import { useState, useEffect } from "react"
+import { useOutletContext, useLocation, useNavigate } from "react-router-dom"
+import { useState, useEffect, useRef } from "react"
 import { useSelector } from "react-redux"
 
 // Custom components
@@ -31,29 +32,23 @@ const UserCollection = () => {
   const [error, setError] = useState(null)
 
   const [input, setInput] = useState("")
+  const [open, setOpen] = useState(false)
 
-  const handleClick = async () => {
-    if (input && token) {
-      try {
-        const response = await axios.post(
-          `${import.meta.env.VITE_BACKEND_URL}/api/collections`,
-          {
-            name: input,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        )
-        setCollections((prev) => [...prev, response.data])
-        setInput("")
-      } catch (error) {
-        setError(error.response.data.error)
-      }
+  const location = useLocation()
+  const navigate = useNavigate()
+
+  const toastShownRef = useRef(false)
+
+  // Show toast when collection is deleted
+  useEffect(() => {
+    if (location.state?.deleted && !toastShownRef.current) {
+      toast.success("Collection deleted successfully.")
+      toastShownRef.current = true
+      navigate(location.pathname, { replace: true })
     }
-  }
+  }, [location, navigate])
 
+  // Fetch user collections
   useEffect(() => {
     const fetchUserCollections = async () => {
       if (userData && userData._id) {
@@ -76,6 +71,30 @@ const UserCollection = () => {
     fetchUserCollections()
   }, [userData])
 
+  // Handle click on create collection button
+  const handleClick = async () => {
+    if (input && token) {
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}/api/collections`,
+          { name: input },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        setCollections((prev) => [...prev, response.data])
+        setInput("")
+        setOpen(false)
+
+        toast.success("Collection created successfully.")
+      } catch (error) {
+        setError(error.response.data.error)
+      }
+    }
+  }
+
   if (loading) return <CardSkeleton amount={4} />
 
   if (error) return <EmptyMessage message="No collections yet." />
@@ -88,7 +107,7 @@ const UserCollection = () => {
       <CollectionList collections={collections} />
       {isOwner && (
         <div className="flex justify-center">
-          <Dialog>
+          <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
               <div className="rounded-full my-10 cursor-pointer">
                 <Button className="rounded-full">Create a Collection</Button>
@@ -106,7 +125,11 @@ const UserCollection = () => {
                 placeholder="Collection name"
               />
               <DialogFooter>
-                <Button onClick={handleClick} type="submit">
+                <Button
+                  className="rounded-full"
+                  onClick={handleClick}
+                  type="submit"
+                >
                   Create Collection
                 </Button>
               </DialogFooter>

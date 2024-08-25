@@ -8,31 +8,31 @@
 
 @font-face {
   font-family: "Avenir-Black";
-  src: url("../fonts/Avenir\ Black.ttf") format("opentype");
+  src: url("../fonts/Avenir Black.ttf") format("truetype");
   font-style: normal;
 }
 
 @font-face {
   font-family: "Avenir-Book";
-  src: url("../fonts/Avenir\ Book.ttf") format("opentype");
+  src: url("../fonts/Avenir Book.ttf") format("truetype");
   font-style: normal;
 }
 
 @font-face {
   font-family: "Avenir-Regular";
-  src: url("../fonts/Avenir\ Regular.ttf") format("opentype");
+  src: url("../fonts/Avenir Regular.ttf") format("truetype");
   font-style: normal;
 }
 
 @font-face {
   font-family: "Avenir-Heavy";
-  src: url("../fonts/Avenir\ Heavy.ttf") format("opentype");
+  src: url("../fonts/Avenir Heavy.ttf") format("truetype");
   font-style: normal;
 }
 
 @font-face {
   font-family: "Avenir-Medium";
-  src: url("../fonts/Avenir\ Medium.ttf") format("opentype");
+  src: url("../fonts/Avenir Medium.ttf") format("truetype");
   font-style: normal;
 }
 p {
