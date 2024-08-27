@@ -92,13 +92,8 @@ function Header() {
         ) : (
           <DropdownMenu>
             <DropdownMenuTrigger className="border w-8 h-8 rounded-full">
-              <Avatar className="w-8 h-8">
-                {user.profileImage && (
-                  <AvatarImage
-                    className="rounded-full"
-                    src={user.profileImage}
-                  />
-                )}
+              <Avatar className="w-full h-full">
+                {user.profileImage && <AvatarImage src={user.profileImage} />}
                 <AvatarFallback>{user.username[0]}</AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
