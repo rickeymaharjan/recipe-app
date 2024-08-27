@@ -20,11 +20,13 @@ import { useParams } from "react-router-dom"
 
 const CollectionPopup = () => {
   const { recipeId } = useParams()
+  const token = useSelector((state) => state.auth.token)
 
   const [collections, setCollections] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
   const [searchQuery, setSearchQuery] = useState("")
+  const [input, setInput] = useState("")
 
   const [open, setOpen] = useState(false)
 
@@ -106,6 +108,26 @@ const CollectionPopup = () => {
     setOpen(false)
   }
 
+  const handleAddCollection = async () => {
+    if (input && token) {
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}/api/collections`,
+          { name: input },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        setCollections((prev) => [...prev, response.data])
+        setInput("")
+      } catch (error) {
+        setError(error.response.data.error)
+      }
+    }
+  }
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
@@ -184,6 +206,16 @@ const CollectionPopup = () => {
         ) : (
           <Label>No collections found.</Label>
         )}
+
+        <div className="flex gap-3">
+          <Input
+            placeholder="New collection"
+            onChange={(e) => setInput(e.target.value)}
+          />
+          <Button className="rounded-md" onClick={handleAddCollection}>
+            Add
+          </Button>
+        </div>
       </DialogContent>
     </Dialog>
   )
