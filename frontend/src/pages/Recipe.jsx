@@ -1,13 +1,25 @@
 // ShadCn
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
+import { toast } from "sonner"
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogFooter,
+  DialogTitle,
+  DialogDescription,
+  DialogClose,
+} from "@/components/ui/dialog"
 
 // Icons
 import { LuBookmark } from "react-icons/lu"
 import { LuPlus } from "react-icons/lu"
+import { IoPencilOutline } from "react-icons/io5"
+import { IoTrash } from "react-icons/io5"
 
 // React
-import { useParams, Link } from "react-router-dom"
+import { useParams, Link, useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 
@@ -43,6 +55,7 @@ const Instruction = ({ index, description }) => {
 
 function Recipe() {
   const { recipeId } = useParams()
+  const navigate = useNavigate()
   const auth = useSelector((state) => state.auth.user)
 
   const [recipeData, setRecipeData] = useState(null)
@@ -69,6 +82,19 @@ function Recipe() {
 
   const isOwner =
     recipeData && auth ? auth._id === recipeData.createdBy._id : false
+
+  const handleDelete = async () => {
+    try {
+      await axios.delete(
+        `${import.meta.env.VITE_BACKEND_URL}/api/recipes/${recipeId}`
+      )
+      toast.success("Recipe deleted successfully")
+      navigate(-1)
+    } catch (error) {
+      console.error(error)
+      toast.error("Failed to delete recipe")
+    }
+  }
 
   if (loading) return <RecipePageSkeleton />
 
@@ -101,7 +127,45 @@ function Recipe() {
 
         <div className="flex gap-1">
           {isOwner ? (
-            <Button className="rounded-full">Edit recipe</Button>
+            <>
+              <IoPencilOutline
+                color="white"
+                size={35}
+                className="p-[10px] rounded-full bg-black cursor-pointer"
+              />
+
+              <Dialog>
+                <DialogTrigger asChild>
+                  <div className="w-[35px] h-[35px] rounded-full">
+                    <IoTrash
+                      className="p-[10px] rounded-full bg-black cursor-pointer"
+                      size={35}
+                      color="white"
+                    />
+                  </div>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogTitle>Recipe deletion</DialogTitle>
+                  <DialogDescription>
+                    Are you sure you want to delete this recipe?
+                  </DialogDescription>
+                  <DialogFooter>
+                    <DialogClose asChild>
+                      <Button className="rounded-full" variant="outline">
+                        Cancel
+                      </Button>
+                    </DialogClose>
+                    <Button
+                      variant="destructive"
+                      className="rounded-full"
+                      onClick={handleDelete}
+                    >
+                      Delete
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+            </>
           ) : (
             <>
               <AuthRedirect Component={CollectionPopup}>
