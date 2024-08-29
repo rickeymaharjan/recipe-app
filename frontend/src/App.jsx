@@ -11,12 +11,16 @@ import AddRecipe from "./pages/AddRecipe"
 import Profile from "./pages/Profile"
 import UserRecipe from "@/components/profile/UserRecipe"
 import Recipes from "./pages/Recipes"
+import Account from "./pages/Account"
+import EditPassword from "./components/profile/EditPassword"
 
 import { checkToken, selectAuthToken, selectUser } from "./features/authSlice"
 import WithAuthRedirect from "./auth/WithAuthRedirect"
 import UserCollection from "./components/profile/UserCollection"
 import UserMealPlanning from "./components/profile/UserMealPlanning"
 import Collection from "./pages/Collection"
+import EditGeneral from "./components/profile/EditGeneral"
+import EditProfile from "./components/profile/EditProfile"
 
 function App() {
   const token = useSelector(selectAuthToken)
@@ -37,6 +41,7 @@ function App() {
   const ProtectedLogin = WithAuthRedirect(Login, "/")
   const ProtectedSignup = WithAuthRedirect(Signup, "/")
   const ProtectedAddRecipe = WithAuthRedirect(AddRecipe)
+  const ProtectedAccount = WithAuthRedirect(Account)
 
   // Wrap components that require authentication
   return (
@@ -78,6 +83,12 @@ function App() {
             path=":username/collections/:collectionId"
             element={<Collection loggedInUsername={loggedInUsername} />}
           />
+
+          <Route path="account" element={<ProtectedAccount />}>
+            <Route index element={<EditGeneral />} />
+            <Route path="password" element={<EditPassword />} />
+            <Route path="profile" element={<EditProfile />} />
+          </Route>
         </Route>
       </Routes>
     </Router>

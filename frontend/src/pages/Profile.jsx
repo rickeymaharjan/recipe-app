@@ -2,14 +2,21 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { useEffect, useState } from "react"
-import axios from "axios"
 
 // router imports
-import { Outlet, useParams, useLocation, useNavigate } from "react-router-dom"
+import {
+  Outlet,
+  useParams,
+  useLocation,
+  useNavigate,
+  Link,
+} from "react-router-dom"
 
 // Custom components
 import NotFound from "@/pages/NotFound"
 import ProfileSkeleton from "@/components/profile/ProfileSkeleton"
+
+import axios from "axios"
 
 function Profile({ loggedInUsername }) {
   const { username } = useParams()
@@ -62,21 +69,32 @@ function Profile({ loggedInUsername }) {
   return (
     <div className="common-padding" style={{ minHeight: "calc(100vh - 75px)" }}>
       {/* Top section */}
-      <div className="flex items-center gap-5 mt-12 mb-12">
+      <div className="flex items-center gap-5 mt-12 mb-6">
         <Avatar className="w-28 h-28 lg:w-32 lg:h-32">
           {userData.profileImage && <AvatarImage src={userData.profileImage} />}
           <AvatarFallback>{username[0]}</AvatarFallback>
         </Avatar>
 
         <div className="flex flex-col gap-[10px]">
-          <p className="text-2xl lg:text-3xl font-avenir-heavy">
-            {userData.username}
-          </p>
-          <p className="text-gray-500 text-sm lg:text-base">Austria</p>
+          <div>
+            <p className="text-2xl lg:text-3xl font-avenir-heavy">
+              {userData.username}
+            </p>
+            <p className="text-gray-500 text-sm lg:text-base">
+              {userData.location}
+            </p>
+          </div>
           {isOwner && (
-            <Button className="rounded-full w-[110px]">Edit Profile</Button>
+            <Link to="/account">
+              <Button className="rounded-full w-[110px]">Edit Profile</Button>
+            </Link>
           )}
         </div>
+      </div>
+
+      <div className="mb-10 ">
+        <span className="font-avenir-medium font-bold">{userData.name}</span>
+        <p className="text-sm text-gray-600">{userData.bio}</p>
       </div>
 
       {/* Tabs */}
