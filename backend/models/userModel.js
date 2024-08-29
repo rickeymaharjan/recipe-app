@@ -6,9 +6,11 @@ const validator = require("validator")
 const userSchema = new Schema(
   {
     username: { type: String, required: true, unique: true },
+    name: { type: String },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     bio: { type: String },
+    location: { type: String },
     profileImage: { type: String },
     createdRecipes: [{ type: Schema.Types.ObjectId, ref: "Recipe" }],
     favoriteRecipes: [{ type: Schema.Types.ObjectId, ref: "Recipe" }],
