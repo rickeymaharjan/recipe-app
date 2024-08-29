@@ -99,11 +99,19 @@ const updateRecipe = (req, res) => {
 // Controller function to delete a recipe
 const deleteRecipe = (req, res) => {
   //   Extract the recipe ID from the request parameters
+  console.log("deleteRecipe")
   const { id } = req.params
-  //   Logic to delete the recipe from the database
-  Recipe.findByIdAndDelete(id)
 
-  res.json({ message: "Recipe deleted successfully" })
+  Recipe.findByIdAndDelete(id)
+    .then((deletedRecipe) => {
+      if (!deletedRecipe) {
+        return res.status(404).json({ error: "Recipe not found" })
+      }
+      res.json({ message: "Recipe deleted successfully" })
+    })
+    .catch((error) => {
+      res.status(500).json({ error: "Failed to delete recipe" })
+    })
 }
 
 // Export the controller functions
