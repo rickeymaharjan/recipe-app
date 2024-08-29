@@ -46,8 +46,12 @@ export const loginUser = createAsyncThunk(
         return rejectWithValue("The email you entered is invalid.")
       } else if (error.response.data.error == "Error: Invalid password.") {
         return rejectWithValue("The password you entered is invalid.")
+      } else if (
+        error.response.data.error == "Error: All fields must be filled."
+      ) {
+        return rejectWithValue("All fields must be filled.")
       }
-      return rejectWithValue(error.response.data)
+      return rejectWithValue("An error occurred. Please try again.")
     }
   }
 )
@@ -76,7 +80,6 @@ export const registerUser = createAsyncThunk(
       ) {
         return rejectWithValue("The Username is already in use.")
       }
-      console.log(error)
       return rejectWithValue(error.response.data.error)
     }
   }
