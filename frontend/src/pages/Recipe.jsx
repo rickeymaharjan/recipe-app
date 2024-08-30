@@ -101,7 +101,7 @@ function Recipe() {
   if (error) return <NotFound />
 
   return (
-    <div className="flex flex-col px-[100px] mb-5 mt-2">
+    <div className="flex flex-col recipe-padding mb-5 mt-2">
       {/* Profile section */}
       <div className="sticky top-0 flex items-center justify-between w-full py-3 mb-4 bg-gray-50">
         <div className="flex">
@@ -151,7 +151,10 @@ function Recipe() {
                   </DialogDescription>
                   <DialogFooter>
                     <DialogClose asChild>
-                      <Button className="rounded-full" variant="outline">
+                      <Button
+                        className="rounded-full mt-1 sm:mt-0"
+                        variant="outline"
+                      >
                         Cancel
                       </Button>
                     </DialogClose>
@@ -192,11 +195,13 @@ function Recipe() {
         </div>
       </div>
 
-      <div className="flex gap-16 bg-gray-50">
+      {/* gap was 16 */}
+      <div className="flex flex-col md:flex-row gap-0 md:gap-14 lg:gap-16 bg-gray-50">
         {/* Left side */}
-        <div className="w-[380px]">
+        {/* width was 380 */}
+        <div className="w-full md:w-[340px] md:min-w-[340px] lg:w-[380px]">
           {/* recipe image */}
-          <div className="w-full h-[530px] mb-8">
+          <div className="w-full h-[530px] md:h-[500px] lg:h-[530px] mb-8">
             <img
               className="object-cover w-full h-full rounded-md"
               src={recipeData.imageFilename}
@@ -204,8 +209,8 @@ function Recipe() {
             />
           </div>
 
-          {/* Ingredients list */}
-          <div className="w-full bg-white border px-[30px] py-[25px] rounded-xl">
+          {/* Ingredients list (mobile hidden, desktop visible)*/}
+          <div className="w-full bg-white border px-[30px] py-[25px] rounded-xl hidden md:flex md:flex-col">
             <p className="mb-4 text-3xl italic font-bold font-recipeTitle">
               Ingredients
             </p>
@@ -227,10 +232,10 @@ function Recipe() {
         </div>
 
         {/* Right side */}
-        <div className="flex-1 pt-3">
+        <div className="flex-1 pt-0">
           {/* Recipe info */}
           <div className="flex flex-col gap-8">
-            <p className="text-6xl w-[460px] max-w-[600px] font-recipeTitle font-bold italic leading-[75px]">
+            <p className="text-5xl md:text-5xl lg:text-6xl md:pt-3 lg:pt-1 w-[460px] max-w-[600px] font-recipeTitle font-bold italic leading-[75px]">
               {recipeData.title}
             </p>
 
@@ -257,6 +262,27 @@ function Recipe() {
                 <Nutrition title="Protein" amount="2.5g" />
                 <Nutrition title="Carbs" amount="25g" />
                 <Nutrition title="Fiber" amount="3.5g" />
+              </div>
+            </div>
+
+            {/* Ingredients list (mobile visible, desktop hidden)*/}
+            <div className="w-full bg-white border px-[30px] py-[25px] rounded-xl md:hidden">
+              <p className="mb-4 text-3xl italic font-bold font-recipeTitle">
+                Ingredients
+              </p>
+
+              <div className="flex flex-col">
+                {recipeData.ingredients.map((ingredient, index) => (
+                  <div
+                    key={index}
+                    className="flex justify-between pb-3 text-gray-500 bg-white font-avenir-medium"
+                  >
+                    <p>{ingredient.name}</p>
+                    <p className="text-black font-avenir-medium">
+                      {ingredient.quantity}
+                    </p>
+                  </div>
+                ))}
               </div>
             </div>
 

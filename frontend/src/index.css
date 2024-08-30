@@ -44,6 +44,10 @@ p {
   .common-padding {
     @apply px-[20px] md:px-[30px] lg:px-[70px] xl:px-[80px];
   }
+
+  .recipe-padding {
+    @apply px-[25px] md:px-[40px] lg:px-[80px] xl:px-[100px];
+  }
 }
 
 @layer base {
