@@ -19,6 +19,7 @@ import { IoSearchOutline } from "react-icons/io5"
 import { IoSettingsOutline } from "react-icons/io5"
 import { IoLogInOutline } from "react-icons/io5"
 import { IoPersonOutline } from "react-icons/io5"
+import { HiOutlineMenuAlt1 } from "react-icons/hi"
 
 // Redux
 import { useSelector } from "react-redux"
@@ -59,15 +60,18 @@ function Header() {
         </p>
       </div>
 
-      <Link
-        to="/"
-        className="text-2xl lg:text-3xl text-black transition ease-in-out font-logo hover:text-[#DE3725] hover:scale-105"
-      >
-        Fresh Feast
-      </Link>
+      <div className="flex gap-4 items-center">
+        <HiOutlineMenuAlt1 className="lg:hidden cursor-pointer" size={23} />
+        <Link
+          to="/"
+          className="text-2xl lg:text-3xl text-black transition ease-in-out font-logo hover:text-[#DE3725] hover:scale-105"
+        >
+          Fresh Feast
+        </Link>
+      </div>
 
-      <div className="flex items-center gap-2">
-        <div className="relative w-[225px] h-[35px]">
+      <div className="flex items-center gap-3 lg:gap-2">
+        <div className="relative w-[225px] h-[35px] hidden lg:flex">
           <Input
             className="w-full h-full pl-10 rounded-full "
             placeholder="search"
@@ -76,6 +80,8 @@ function Header() {
             <IoSearchOutline />
           </div>
         </div>
+
+        <IoSearchOutline size={23} className="lg:hidden" />
 
         {!isAuthenticated ? (
           <div className="flex gap-1">

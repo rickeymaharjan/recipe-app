@@ -58,21 +58,21 @@ function Home() {
   return (
     <div className="flex flex-col items-center">
       <img
-        className="object-cover w-full h-[525px] mb-20"
+        className="object-cover w-full h-[250px] sm:h-[350px] md:h-[380] lg:h-[460px] xl:h-[525px] mb-14 xl:mb-20"
         src="landing-image.png"
         alt=""
       />
 
-      <h2 className="text-[64px] text-center font-georgia w-[800px] mb-5">
+      <h2 className="text-[32px] sm:text-[45px] lg:text-[50px] xl:text-[64px] text-center font-georgia w-[400px] sm:w-[550px] lg:w-[700px] xl:w-[800px] mb-5">
         Discover Culinary Wonders from Around the Globe
       </h2>
 
-      <p className="mb-10 text-2xl font-avenir-regular">
+      <p className="mb-10 px-5 text-sm sm:text-base lg:text-lg xl:text-2xl text-center font-avenir-regular">
         Embark on a journey through flavors and traditions from all corners of
         the world.
       </p>
 
-      <Button className="py-6 mb-20 rounded-full">Get Started</Button>
+      <Button className="py-6 mb-14 xl:mb-20 rounded-full">Get Started</Button>
 
       {/* Carousel Marquee */}
       <Marquee autoFill className="mb-20">
@@ -82,11 +82,11 @@ function Home() {
       </Marquee>
 
       {/* Popular Recipes */}
-      <div className="flex flex-col w-full gap-4 px-[80px] mb-20">
-        <div className="flex items-center justify-between">
+      <div className="flex flex-col w-full gap-4 px-[80px] mb-3 xl:mb-14">
+        {/* <div className="flex items-center justify-between">
           <h3 className="text-3xl font-avenir-medium">Popular Recipes</h3>
           <p className="text-gray-500">View more</p>
-        </div>
+        </div> */}
         {/* <div className="flex justify-between gap-6">
           <RecipeCard recipe={recipes[1]} />
           <RecipeCard recipe={recipes[5]} />
@@ -96,15 +96,15 @@ function Home() {
       </div>
 
       {/* Additional Information */}
-      <div className="w-full h-[560px] bg-[#DE3725] flex flex-col justify-center items-center">
-        <h3 className="text-[64px] bg-inherit font-georgia text-white">
+      <div className="w-full h-[500px] xl:h-[560px] bg-[#DE3725] flex flex-col justify-center items-center">
+        <h3 className="text-white text-[32px] sm:text-[45px] lg:text-[50px] xl:text-[64px] text-center font-georgia mb-1">
           Cook, Share, Delight
         </h3>
-        <p className="text-white font-avenir-book text-[24px] mt-3">
+        <p className="text-white px-5 text-base lg:text-lg xl:text-2xl text-center font-avenir-book mb-1">
           Create delicious and nutritious meals from simple, easy-to-follow
           recipes that impress.
         </p>
-        <p className="text-white font-avenir-book text-[24px] mt-1">
+        <p className="text-white px-5 text-base lg:text-lg xl:text-2xl text-center font-avenir-book">
           Inspire your inner chef with recipes from food lovers everywhere.
         </p>
 
