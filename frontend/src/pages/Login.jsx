@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react"
 
 import { useDispatch } from "react-redux"
@@ -10,6 +10,7 @@ import { useSelector } from "react-redux"
 import { loginUser } from "@/features/authSlice"
 
 function Login() {
+  const navigate = useNavigate()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
@@ -18,7 +19,8 @@ function Login() {
 
   const handleLogin = (e) => {
     e.preventDefault()
-    dispatch(loginUser({ email, password }))
+    dispatch(loginUser({ email, password })).unwrap()
+    navigate(-1)
   }
 
   return (
