@@ -195,10 +195,8 @@ function Recipe() {
         </div>
       </div>
 
-      {/* gap was 16 */}
       <div className="flex flex-col md:flex-row gap-0 md:gap-14 lg:gap-16 bg-gray-50">
         {/* Left side */}
-        {/* width was 380 */}
         <div className="w-full md:w-[340px] md:min-w-[340px] lg:w-[380px]">
           {/* recipe image */}
           <div className="w-full h-[530px] md:h-[500px] lg:h-[530px] mb-8">
@@ -243,14 +241,22 @@ function Recipe() {
 
             <div className="flex gap-5">
               <p className="text-gray-500 font-avenir-medium">
-                Total <span className="text-black font-avenir-medium">40m</span>
+                Total{" "}
+                <span className="text-black font-avenir-medium">
+                  {recipeData.totalTime}m
+                </span>
               </p>
               <p className="text-gray-500 font-avenir-medium">
-                Prep <span className="text-black font-avenir-medium">20m</span>
+                Prep{" "}
+                <span className="text-black font-avenir-medium">
+                  {recipeData.prepTime}m
+                </span>
               </p>
               <p className="text-gray-500 font-avenir-medium">
                 Cooking{" "}
-                <span className="text-black font-avenir-medium">20m</span>
+                <span className="text-black font-avenir-medium">
+                  {recipeData.cookTime}m
+                </span>
               </p>
             </div>
 
@@ -258,10 +264,22 @@ function Recipe() {
               <div className="font-avenir-medium">Nutrition per serving</div>
 
               <div className="flex gap-4">
-                <Nutrition title="Calories" amount="250" />
-                <Nutrition title="Protein" amount="2.5g" />
-                <Nutrition title="Carbs" amount="25g" />
-                <Nutrition title="Fiber" amount="3.5g" />
+                <Nutrition
+                  title="Calories"
+                  amount={recipeData.nutritions.calories}
+                />
+                <Nutrition
+                  title="Protein"
+                  amount={`${recipeData.nutritions.protein}g`}
+                />
+                <Nutrition
+                  title="Carbs"
+                  amount={`${recipeData.nutritions.carbs}g`}
+                />
+                <Nutrition
+                  title="Fiber"
+                  amount={`${recipeData.nutritions.fiber}g`}
+                />
               </div>
             </div>
 
