@@ -21,6 +21,7 @@ import UserMealPlanning from "./components/profile/UserMealPlanning"
 import Collection from "./pages/Collection"
 import EditGeneral from "./components/profile/EditGeneral"
 import EditProfile from "./components/profile/EditProfile"
+import EditRecipe from "./pages/EditRecipe"
 
 function App() {
   const token = useSelector(selectAuthToken)
@@ -42,6 +43,7 @@ function App() {
   const ProtectedSignup = WithAuthRedirect(Signup, "/")
   const ProtectedAddRecipe = WithAuthRedirect(AddRecipe)
   const ProtectedAccount = WithAuthRedirect(Account)
+  const ProtectedEditRecipe = WithAuthRedirect(EditRecipe)
 
   // Wrap components that require authentication
   return (
@@ -51,6 +53,7 @@ function App() {
         <Route path="/signup" element={<ProtectedSignup />} />
         <Route path="/login" element={<ProtectedLogin />} />
         <Route path="/add-recipe" element={<ProtectedAddRecipe />} />
+        <Route path="/edit-recipe" element={<ProtectedEditRecipe />} />
 
         {/* Routes with layout */}
         <Route path="/" element={<BaseLayout />}>

@@ -91,7 +91,6 @@ function Recipe() {
       toast.success("Recipe deleted successfully")
       navigate(-1)
     } catch (error) {
-      console.error(error)
       toast.error("Failed to delete recipe")
     }
   }
@@ -132,6 +131,9 @@ function Recipe() {
                 color="white"
                 size={35}
                 className="p-[10px] rounded-full bg-black cursor-pointer"
+                onClick={() =>
+                  navigate("/edit-recipe", { state: { recipeData } })
+                }
               />
 
               <Dialog>
