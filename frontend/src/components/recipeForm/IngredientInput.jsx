@@ -48,6 +48,7 @@ function IngredientInput({ ingredients, setIngredients }) {
         </div>
       ))}
       <Button
+        type="button"
         variant="outline"
         onClick={handleAddIngredient}
         className="mt-2 flex items-center gap-1"

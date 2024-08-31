@@ -41,6 +41,7 @@ function InstructionInput({ instructions, setInstructions }) {
         </div>
       ))}
       <Button
+        type="button"
         variant="outline"
         onClick={handleAddInstruction}
         className="mt-2 flex items-center gap-1"
