@@ -22,6 +22,7 @@ import Collection from "./pages/Collection"
 import EditGeneral from "./components/profile/EditGeneral"
 import EditProfile from "./components/profile/EditProfile"
 import EditRecipe from "./pages/EditRecipe"
+import SearchPage from "./pages/SearchPage"
 
 function App() {
   const token = useSelector(selectAuthToken)
@@ -92,6 +93,8 @@ function App() {
             <Route path="password" element={<EditPassword />} />
             <Route path="profile" element={<EditProfile />} />
           </Route>
+
+          <Route path="search" element={<SearchPage />} />
         </Route>
       </Routes>
     </Router>
