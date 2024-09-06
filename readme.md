@@ -1,4 +1,4 @@
-# Full-Stack Application
+# Fresh Feast (MERN)
 
 ## Overview
 
