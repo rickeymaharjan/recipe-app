@@ -14,12 +14,12 @@ import { Button } from "@/components/ui/button"
 
 import { useSelector } from "react-redux"
 
-const AuthRedirect = ({ children, Component }) => {
+const AuthRedirect = ({ children, Component, ...props }) => {
   const auth = useSelector((state) => state.auth)
   const isAuthenticated = auth.isAuthenticated
 
   if (isAuthenticated) {
-    return Component ? <Component /> : null
+    return Component ? <Component {...props} /> : null
   }
 
   return (
