@@ -119,6 +119,28 @@ const deleteRecipe = (req, res) => {
     })
 }
 
+// Controller function to search recipes
+const searchRecipes = (req, res) => {
+  console.log("working")
+  const { displayQuery } = req.query
+
+  Recipe.find({
+    $or: [
+      { title: { $regex: displayQuery, $options: "i" } },
+      { category: { $regex: displayQuery, $options: "i" } },
+    ],
+  })
+    .populate("createdBy", "username profileImage")
+    .then((recipes) => {
+      return res.status(200).json(recipes)
+    })
+    .catch((error) => {
+      return res
+        .status(500)
+        .json({ error: "Failed to get recipes, internal server error." })
+    })
+}
+
 // Export the controller functions
 module.exports = {
   getAllRecipes,
@@ -127,4 +149,5 @@ module.exports = {
   updateRecipe,
   deleteRecipe,
   getAllRecipesByUserId,
+  searchRecipes,
 }

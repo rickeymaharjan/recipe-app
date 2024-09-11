@@ -9,6 +9,9 @@ router.get("/", recipeController.getAllRecipes)
 // GET all recipes by user ID
 router.get("/user/:id", recipeController.getAllRecipesByUserId)
 
+// GET recipes by query
+router.get("/search", recipeController.searchRecipes)
+
 // GET a specific recipe by ID
 router.get("/:id", recipeController.getRecipeById)
 
