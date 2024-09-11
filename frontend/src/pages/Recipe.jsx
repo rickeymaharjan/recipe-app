@@ -29,6 +29,7 @@ import RecipePageSkeleton from "@/components/recipePage/RecipePageSkeleton"
 import AuthRedirect from "@/components/AuthRedirect"
 import CollectionPopup from "@/components/CollectionPopup"
 import MealPlanPopup from "@/components/MealPlanPopup"
+import RecipeReviews from "@/components/recipePage/RecipeReviews"
 import { format } from "date-fns"
 
 const Nutrition = ({ title, amount }) => {
@@ -61,6 +62,13 @@ function Recipe() {
   const [recipeData, setRecipeData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [averageRating, setAverageRating] = useState(0)
+
+  const calculateAverageRating = (reviews) => {
+    if (reviews.length === 0) return 0
+    const total = reviews.reduce((sum, review) => sum + review.rating, 0)
+    return (total / reviews.length).toFixed(1)
+  }
 
   useEffect(() => {
     setLoading(true)
@@ -70,6 +78,7 @@ function Recipe() {
           `${import.meta.env.VITE_BACKEND_URL}/api/recipes/${recipeId}`
         )
         setRecipeData(response.data)
+        setAverageRating(calculateAverageRating(response.data.reviews))
       } catch (error) {
         setError(error.response.data.error)
       } finally {
@@ -79,6 +88,12 @@ function Recipe() {
 
     fetchRecipeData()
   }, [recipeId])
+
+  useEffect(() => {
+    if (recipeData?.reviews) {
+      setAverageRating(calculateAverageRating(recipeData.reviews))
+    }
+  }, [recipeData?.reviews])
 
   const isOwner =
     recipeData && auth ? auth._id === recipeData.createdBy._id : false
@@ -100,9 +115,9 @@ function Recipe() {
   if (error) return <NotFound />
 
   return (
-    <div className="flex flex-col recipe-padding mb-5 mt-2">
+    <div className="mt-2">
       {/* Profile section */}
-      <div className="sticky top-0 flex items-center justify-between w-full py-3 mb-4 bg-gray-50">
+      <div className="sticky z-10 top-0 flex items-center justify-between w-full py-3 mb-4 bg-gray-50/85 recipe-padding backdrop-blur-2xl">
         <div className="flex">
           <Link to={`/${recipeData.createdBy.username}`}>
             <Avatar className="w-12 h-12 cursor-pointer">
@@ -196,97 +211,21 @@ function Recipe() {
           )}
         </div>
       </div>
-
-      <div className="flex flex-col md:flex-row gap-0 md:gap-14 lg:gap-16 bg-gray-50">
-        {/* Left side */}
-        <div className="w-full md:w-[340px] md:min-w-[340px] lg:w-[380px]">
-          {/* recipe image */}
-          <div className="w-full h-[530px] md:h-[500px] lg:h-[530px] mb-8">
-            <img
-              className="object-cover w-full h-full rounded-md"
-              src={recipeData.imageFilename}
-              alt="recipe image"
-            />
-          </div>
-
-          {/* Ingredients list (mobile hidden, desktop visible)*/}
-          <div className="w-full bg-white border px-[30px] py-[25px] rounded-xl hidden md:flex md:flex-col">
-            <p className="mb-4 text-3xl italic font-bold font-recipeTitle">
-              Ingredients
-            </p>
-
-            <div className="flex flex-col">
-              {recipeData.ingredients.map((ingredient, index) => (
-                <div
-                  key={index}
-                  className="flex justify-between pb-3 text-gray-500 bg-white font-avenir-medium"
-                >
-                  <p>{ingredient.name}</p>
-                  <p className="text-black font-avenir-medium">
-                    {ingredient.quantity}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Right side */}
-        <div className="flex-1 pt-0">
-          {/* Recipe info */}
-          <div className="flex flex-col gap-8">
-            <p className="text-5xl md:text-5xl lg:text-6xl md:pt-3 lg:pt-1 w-[460px] max-w-[600px] font-recipeTitle font-bold italic leading-[75px]">
-              {recipeData.title}
-            </p>
-
-            <p className="text-gray-500">{recipeData.description}</p>
-
-            <div className="flex gap-5">
-              <p className="text-gray-500 font-avenir-medium">
-                Total{" "}
-                <span className="text-black font-avenir-medium">
-                  {recipeData.totalTime}m
-                </span>
-              </p>
-              <p className="text-gray-500 font-avenir-medium">
-                Prep{" "}
-                <span className="text-black font-avenir-medium">
-                  {recipeData.prepTime}m
-                </span>
-              </p>
-              <p className="text-gray-500 font-avenir-medium">
-                Cooking{" "}
-                <span className="text-black font-avenir-medium">
-                  {recipeData.cookTime}m
-                </span>
-              </p>
+      <div className="flex flex-col recipe-padding mb-5">
+        <div className="flex flex-col md:flex-row gap-0 md:gap-14 lg:gap-16 bg-gray-50">
+          {/* Left side */}
+          <div className="w-full md:w-[340px] md:min-w-[340px] lg:w-[380px]">
+            {/* recipe image */}
+            <div className="w-full h-[530px] md:h-[500px] lg:h-[530px] mb-8">
+              <img
+                className="object-cover w-full h-full rounded-md"
+                src={recipeData.imageFilename}
+                alt="recipe image"
+              />
             </div>
 
-            <div className="flex flex-col gap-4">
-              <div className="font-avenir-medium">Nutrition per serving</div>
-
-              <div className="flex gap-4">
-                <Nutrition
-                  title="Calories"
-                  amount={recipeData.nutritions.calories}
-                />
-                <Nutrition
-                  title="Protein"
-                  amount={`${recipeData.nutritions.protein}g`}
-                />
-                <Nutrition
-                  title="Carbs"
-                  amount={`${recipeData.nutritions.carbs}g`}
-                />
-                <Nutrition
-                  title="Fiber"
-                  amount={`${recipeData.nutritions.fiber}g`}
-                />
-              </div>
-            </div>
-
-            {/* Ingredients list (mobile visible, desktop hidden)*/}
-            <div className="w-full bg-white border px-[30px] py-[25px] rounded-xl md:hidden">
+            {/* Ingredients list (mobile hidden, desktop visible)*/}
+            <div className="w-full bg-white border px-[30px] py-[25px] rounded-xl hidden md:flex md:flex-col">
               <p className="mb-4 text-3xl italic font-bold font-recipeTitle">
                 Ingredients
               </p>
@@ -305,19 +244,106 @@ function Recipe() {
                 ))}
               </div>
             </div>
+          </div>
 
-            {/* Instructions */}
-            <div className="flex flex-col gap-1 bg-white border px-[30px] py-[25px] rounded-xl">
-              <p className="mb-4 text-3xl italic font-bold font-recipeTitle">
-                Instructions
+          {/* Right side */}
+          <div className="flex-1 pt-0">
+            {/* Recipe info */}
+            <div className="flex flex-col gap-8">
+              <p className="text-5xl md:text-5xl lg:text-6xl md:pt-3 lg:pt-1 w-[460px] max-w-[600px] font-recipeTitle font-bold italic leading-[75px]">
+                {recipeData.title}
               </p>
-              {recipeData.instructions.map((instruction, index) => (
-                <Instruction
-                  key={index}
-                  index={index + 1}
-                  description={instruction}
-                />
-              ))}
+
+              <p className="text-gray-500">{recipeData.description}</p>
+
+              <div className="flex gap-5">
+                <p className="text-gray-500 font-avenir-medium">
+                  Total{" "}
+                  <span className="text-black font-avenir-medium">
+                    {recipeData.totalTime}m
+                  </span>
+                </p>
+                <p className="text-gray-500 font-avenir-medium">
+                  Prep{" "}
+                  <span className="text-black font-avenir-medium">
+                    {recipeData.prepTime}m
+                  </span>
+                </p>
+                <p className="text-gray-500 font-avenir-medium">
+                  Cooking{" "}
+                  <span className="text-black font-avenir-medium">
+                    {recipeData.cookTime}m
+                  </span>
+                </p>
+              </div>
+
+              <div className="flex flex-col gap-4">
+                <div className="font-avenir-medium">Nutrition per serving</div>
+
+                <div className="flex gap-4">
+                  <Nutrition
+                    title="Calories"
+                    amount={recipeData.nutritions.calories}
+                  />
+                  <Nutrition
+                    title="Protein"
+                    amount={`${recipeData.nutritions.protein}g`}
+                  />
+                  <Nutrition
+                    title="Carbs"
+                    amount={`${recipeData.nutritions.carbs}g`}
+                  />
+                  <Nutrition
+                    title="Fiber"
+                    amount={`${recipeData.nutritions.fiber}g`}
+                  />
+                </div>
+              </div>
+
+              {/* Ingredients list (mobile visible, desktop hidden)*/}
+              <div className="w-full bg-white border px-[30px] py-[25px] rounded-xl md:hidden">
+                <p className="mb-4 text-3xl italic font-bold font-recipeTitle">
+                  Ingredients
+                </p>
+
+                <div className="flex flex-col">
+                  {recipeData.ingredients.map((ingredient, index) => (
+                    <div
+                      key={index}
+                      className="flex justify-between pb-3 text-gray-500 bg-white font-avenir-medium"
+                    >
+                      <p>{ingredient.name}</p>
+                      <p className="text-black font-avenir-medium">
+                        {ingredient.quantity}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Instructions */}
+              <div className="flex flex-col gap-1 bg-white border px-[30px] py-[25px] rounded-xl">
+                <p className="mb-4 text-3xl italic font-bold font-recipeTitle">
+                  Instructions
+                </p>
+                {recipeData.instructions.map((instruction, index) => (
+                  <Instruction
+                    key={index}
+                    index={index + 1}
+                    description={instruction}
+                  />
+                ))}
+              </div>
+
+              {/* Reviews */}
+              <RecipeReviews
+                username={recipeData.createdBy.username}
+                title={recipeData.title}
+                reviews={recipeData.reviews}
+                setRecipeData={setRecipeData}
+                averageRating={averageRating}
+                setAverageRating={setAverageRating}
+              />
             </div>
           </div>
         </div>
