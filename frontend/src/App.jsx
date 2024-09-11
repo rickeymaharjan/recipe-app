@@ -22,7 +22,9 @@ import Collection from "./pages/Collection"
 import EditGeneral from "./components/profile/EditGeneral"
 import EditProfile from "./components/profile/EditProfile"
 import EditRecipe from "./pages/EditRecipe"
-import SearchPage from "./pages/SearchPage"
+import Search from "./pages/Search"
+import MealPlan from "./pages/MealPlan"
+import SearchResults from "./pages/SearchResults"
 
 function App() {
   const token = useSelector(selectAuthToken)
@@ -83,10 +85,13 @@ function App() {
             path="recipe/:recipeId"
             element={<Recipe loggedInUsername={loggedInUsername} />}
           />
+
           <Route
             path=":username/collections/:collectionId"
             element={<Collection loggedInUsername={loggedInUsername} />}
           />
+
+          <Route path=":username/meals/:mealId" element={<MealPlan />} />
 
           <Route path="account" element={<ProtectedAccount />}>
             <Route index element={<EditGeneral />} />
@@ -94,7 +99,8 @@ function App() {
             <Route path="profile" element={<EditProfile />} />
           </Route>
 
-          <Route path="search" element={<SearchPage />} />
+          <Route path="search" element={<Search />} />
+          <Route path="search/:query" element={<SearchResults />} />
         </Route>
       </Routes>
     </Router>

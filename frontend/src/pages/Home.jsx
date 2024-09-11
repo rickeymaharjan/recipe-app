@@ -1,6 +1,7 @@
 import Marquee from "react-fast-marquee"
 import CarouselCard from "@/components/CarouselCard"
 import { Button } from "@/components/ui/button"
+import { Link } from "react-router-dom"
 
 //  Mock up data for carausel
 const recipes = [
@@ -109,10 +110,12 @@ function Home() {
         </p>
 
         <div className="flex gap-2 mt-10 bg-inherit">
-          <Button className="py-6 rounded-full">Get Started</Button>
-          <Button className="py-6 text-black bg-white rounded-full hover:bg-white">
-            View Recipes
-          </Button>
+          <Button className="py-6 rounded-full">Start Sharing</Button>
+          <Link to="/search">
+            <Button className="py-6 text-black bg-white rounded-full hover:bg-white">
+              Search Recipes
+            </Button>
+          </Link>
         </div>
       </div>
     </div>

@@ -2,6 +2,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
 import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 import axios from "axios"
 
 import CardSkeleton from "@/components/CardSkeleton"
@@ -9,10 +10,13 @@ import RecipeList from "@/components/recipePage/RecipeList"
 
 import { IoSearchOutline } from "react-icons/io5"
 
-const SearchPage = () => {
+const Search = () => {
   const [recipes, setRecipes] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [query, setQuery] = useState("")
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchRecipes = async () => {
@@ -30,6 +34,13 @@ const SearchPage = () => {
     }
     fetchRecipes()
   }, [])
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      const formattedQuery = query.trim().replace(/\s+/g, "-")
+      navigate(`/search/${formattedQuery}`)
+    }
+  }
 
   return (
     <div className="min-h-screen flex flex-col items-center">
@@ -50,7 +61,10 @@ const SearchPage = () => {
             <div>
               <div className="relative w-[350px] h-[55px]">
                 <Input
-                  className="w-full h-full pl-14 text-base rounded-full "
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  className="w-full h-full pl-14 text-base rounded-full"
                   placeholder="Search recipes"
                 />
                 <div className="absolute inset-y-0 flex items-center bg-transparent left-5">
@@ -86,4 +100,4 @@ const SearchPage = () => {
   )
 }
 
-export default SearchPage
+export default Search
