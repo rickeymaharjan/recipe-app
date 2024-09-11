@@ -1,4 +1,5 @@
 const Review = require("../models/reviewModel")
+const Recipe = require("../models/recipeModel")
 
 // Controller function to get all reviews
 const getAllReviews = (req, res) => {
@@ -27,13 +28,38 @@ const getReviewById = (req, res) => {
 
 // Controller function to create a new review
 const createReview = (req, res) => {
-  const newReview = new Review(req.body)
+  const { recipeId } = req.params
+  const { reviewData } = req.body
+
+  const newReview = new Review({
+    ...reviewData,
+    recipe: recipeId,
+    createdBy: req.user_id,
+  })
+
   newReview
     .save()
     .then((review) => {
-      return res.status(201).json(review)
+      Recipe.findByIdAndUpdate(review.recipe, {
+        $push: { reviews: review._id },
+      })
+        .then(() => {
+          return Review.findById(review._id).populate(
+            "createdBy",
+            "username profileImage"
+          )
+        })
+        .then((populatedReview) => {
+          return res.status(201).json(populatedReview)
+        })
+        .catch((error) => {
+          return res
+            .status(500)
+            .json({ error: "Failed to update recipe with review" })
+        })
     })
     .catch((error) => {
+      console.log(error)
       return res.status(500).json({ error: "Failed to create review" })
     })
 }
@@ -59,7 +85,11 @@ const deleteReviewById = (req, res) => {
       if (!review) {
         return res.status(404).json({ error: "Review not found" })
       }
-      res.status(204).json({ message: "Review deleted successfully" })
+      Recipe.findByIdAndDelete(review.recipe, {
+        $pull: { reviews: review._id },
+      }).then(() => {
+        return res.status(204).json({ message: "Review deleted successfully" })
+      })
     })
     .catch((error) => {
       res.status(500).json({ error: "Failed to delete review" })

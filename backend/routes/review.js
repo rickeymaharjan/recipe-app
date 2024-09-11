@@ -1,5 +1,6 @@
 const express = require("express")
 const reviewController = require("../controllers/reviewController")
+const requireAuth = require("../middlewares/requireAuth")
 
 const router = express.Router()
 
@@ -10,7 +11,7 @@ router.get("/", reviewController.getAllReviews)
 router.get("/:id", reviewController.getReviewById)
 
 // POST a new review
-router.post("/", reviewController.createReview)
+router.post("/:recipeId", requireAuth, reviewController.createReview)
 
 // PATCH (update) a review by ID
 router.patch("/:id", reviewController.updateReviewById)

@@ -34,13 +34,18 @@ const getAllRecipesByUserId = (req, res) => {
 
 // Controller function to get a single recipe by ID
 const getRecipeById = (req, res) => {
-  // Extract the recipe ID from the request parameters
   const { id } = req.params
-  // Logic to fetch a recipe by ID from the database
+
   Recipe.findById(id)
     .populate("createdBy", "username profileImage")
+    .populate({
+      path: "reviews",
+      populate: {
+        path: "createdBy",
+        select: "username profileImage",
+      },
+    })
     .then((recipe) => {
-      // If the recipe is not found, return a 404 error
       if (!recipe) {
         return res.status(404).json({ error: "Recipe not found" })
       }
